@@ -20,15 +20,20 @@ public class InitialPlayerLoadController {
 
 	@Autowired
 	@Qualifier(value = "playerDataFacade")
-	private static PlayerDataFacade playerDataFacade;
+	private PlayerDataFacade playerDataFacade;
 	
 	public static void main(String [] args) {
-		final AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(new String []{"fplIntegrationContext.xml"});
+		final AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(new String []{"fplIntegrationContext.xml", "mysqlDatasourceContext.xml"});
 		
 		ctx.registerShutdownHook();
 		
-		playerDataFacade.performInitialPlayerDataLoad();
+		final InitialPlayerLoadController mainMethod = ctx.getBean(InitialPlayerLoadController.class);
+		mainMethod.performInitialLoad();
 		
 		ctx.close();
+	}
+	
+	private void performInitialLoad() {
+		playerDataFacade.performInitialPlayerDataLoad();
 	}
 }

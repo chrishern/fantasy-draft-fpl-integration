@@ -101,6 +101,7 @@ public class FantasyPremierLeaguePlayer {
 	public Player toPlayer() {
 		final Player player = new Player();
 		
+		player.setId(id);
 		player.setForename(first_name);
 		player.setSurname(second_name);
 		player.setTeam(team_name);

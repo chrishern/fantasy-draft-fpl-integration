@@ -72,6 +72,7 @@ public class PlayerDataClientTest {
 		
 		// assert
 		mockServer.verify();
+		assertThat(fplPlayer.getId()).isEqualTo(180);
 		assertThat(fplPlayer.getFirst_name()).isEqualTo("Wes");
 		assertThat(fplPlayer.getSecond_name()).isEqualTo("Morgan");
 		assertThat(fplPlayer.getTeam_name()).isEqualTo("Leicester");

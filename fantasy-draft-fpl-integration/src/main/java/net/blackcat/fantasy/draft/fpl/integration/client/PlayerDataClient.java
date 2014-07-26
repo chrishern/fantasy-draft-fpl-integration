@@ -31,22 +31,6 @@ public class PlayerDataClient {
 		
 		final FantasyPremierLeaguePlayer player = restTemplate.getForObject(url, FantasyPremierLeaguePlayer.class);
 		
-//		System.out.println("Player name: " + player.getFirst_name() + " " + player.getSecond_name());
-//		System.out.println("Team: " + player.getTeam_name());
-//		System.out.println("Position: " + player.getType_name());
-		
 		return player;
 	}
-	
-//	public static void main(final String [] args) {
-//		final PlayerDataClient client = new PlayerDataClient();
-//		
-//		for (int i = 0; i < 40; i++) {
-//			try {
-//				client.getPlayer(i);
-//			} catch (final FantasyPremierLeagueException e) {
-//				System.out.println("Custom exception.  " + e.getStatusCode() + ", " + e.getBody()); 
-//			}
-//		}
-//	}
 }
