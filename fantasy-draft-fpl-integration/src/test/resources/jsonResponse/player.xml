@@ -1,0 +1,282 @@
+{
+  "photo": "15033.jpg",
+  "event_explain": [
+    
+  ],
+  "fixture_history": {
+    "all": [
+      
+    ],
+    "summary": [
+      
+    ]
+  },
+  "season_history": [
+    
+  ],
+  "fixtures": {
+    "all": [
+      [
+        "16 Aug 15:00",
+        "Gameweek 1",
+        "Everton (H)"
+      ],
+      [
+        "23 Aug 15:00",
+        "Gameweek 2",
+        "Chelsea (A)"
+      ],
+      [
+        "31 Aug 16:00",
+        "Gameweek 3",
+        "Arsenal (H)"
+      ],
+      [
+        "13 Sep 15:00",
+        "Gameweek 4",
+        "Stoke (A)"
+      ],
+      [
+        "21 Sep 13:30",
+        "Gameweek 5",
+        "Man Utd (H)"
+      ],
+      [
+        "27 Sep 15:00",
+        "Gameweek 6",
+        "Crystal Palace (A)"
+      ],
+      [
+        "04 Oct 15:00",
+        "Gameweek 7",
+        "Burnley (H)"
+      ],
+      [
+        "18 Oct 15:00",
+        "Gameweek 8",
+        "Newcastle (A)"
+      ],
+      [
+        "25 Oct 17:30",
+        "Gameweek 9",
+        "Swansea (A)"
+      ],
+      [
+        "01 Nov 15:00",
+        "Gameweek 10",
+        "West Brom (H)"
+      ],
+      [
+        "08 Nov 15:00",
+        "Gameweek 11",
+        "Southampton (A)"
+      ],
+      [
+        "22 Nov 15:00",
+        "Gameweek 12",
+        "Sunderland (H)"
+      ],
+      [
+        "29 Nov 15:00",
+        "Gameweek 13",
+        "QPR (A)"
+      ],
+      [
+        "02 Dec 19:45",
+        "Gameweek 14",
+        "Liverpool (H)"
+      ],
+      [
+        "06 Dec 15:00",
+        "Gameweek 15",
+        "Aston Villa (A)"
+      ],
+      [
+        "13 Dec 15:00",
+        "Gameweek 16",
+        "Man City (H)"
+      ],
+      [
+        "20 Dec 15:00",
+        "Gameweek 17",
+        "West Ham (A)"
+      ],
+      [
+        "26 Dec 15:00",
+        "Gameweek 18",
+        "Spurs (H)"
+      ],
+      [
+        "28 Dec 15:00",
+        "Gameweek 19",
+        "Hull (A)"
+      ],
+      [
+        "01 Jan 15:00",
+        "Gameweek 20",
+        "Liverpool (A)"
+      ],
+      [
+        "10 Jan 15:00",
+        "Gameweek 21",
+        "Aston Villa (H)"
+      ],
+      [
+        "17 Jan 15:00",
+        "Gameweek 22",
+        "Stoke (H)"
+      ],
+      [
+        "31 Jan 15:00",
+        "Gameweek 23",
+        "Man Utd (A)"
+      ],
+      [
+        "07 Feb 15:00",
+        "Gameweek 24",
+        "Crystal Palace (H)"
+      ],
+      [
+        "10 Feb 19:45",
+        "Gameweek 25",
+        "Arsenal (A)"
+      ],
+      [
+        "21 Feb 15:00",
+        "Gameweek 26",
+        "Everton (A)"
+      ],
+      [
+        "28 Feb 15:00",
+        "Gameweek 27",
+        "Chelsea (H)"
+      ],
+      [
+        "04 Mar 19:45",
+        "Gameweek 28",
+        "Man City (A)"
+      ],
+      [
+        "14 Mar 15:00",
+        "Gameweek 29",
+        "Hull (H)"
+      ],
+      [
+        "21 Mar 15:00",
+        "Gameweek 30",
+        "Spurs (A)"
+      ],
+      [
+        "04 Apr 15:00",
+        "Gameweek 31",
+        "West Ham (H)"
+      ],
+      [
+        "11 Apr 15:00",
+        "Gameweek 32",
+        "West Brom (A)"
+      ],
+      [
+        "18 Apr 15:00",
+        "Gameweek 33",
+        "Swansea (H)"
+      ],
+      [
+        "25 Apr 15:00",
+        "Gameweek 34",
+        "Burnley (A)"
+      ],
+      [
+        "02 May 15:00",
+        "Gameweek 35",
+        "Newcastle (H)"
+      ],
+      [
+        "09 May 15:00",
+        "Gameweek 36",
+        "Southampton (H)"
+      ],
+      [
+        "16 May 15:00",
+        "Gameweek 37",
+        "Sunderland (A)"
+      ],
+      [
+        "24 May 15:00",
+        "Gameweek 38",
+        "QPR (H)"
+      ]
+    ],
+    "summary": [
+      [
+        1,
+        "EVE (H)",
+        "16 Aug 15:00"
+      ],
+      [
+        2,
+        "CHE (A)",
+        "23 Aug 15:00"
+      ],
+      [
+        3,
+        "ARS (H)",
+        "31 Aug 16:00"
+      ]
+    ]
+  },
+  "event_total": 0,
+  "type_name": "Defender",
+  "team_name": "Leicester",
+  "selected_by": "1.0",
+  "total_points": 0,
+  "current_fixture": "",
+  "next_fixture": "Everton (H)",
+  "team_code": 13,
+  "news": "",
+  "team_id": 8,
+  "id": 180,
+  "status": "a",
+  "code": 15033,
+  "first_name": "Wes",
+  "second_name": "Morgan",
+  "web_name": "Morgan",
+  "now_cost": 45,
+  "chance_of_playing_this_round": null,
+  "chance_of_playing_next_round": null,
+  "value_form": "0.0",
+  "value_season": "0.0",
+  "cost_change_start": 0,
+  "cost_change_event": 0,
+  "cost_change_start_fall": 0,
+  "cost_change_event_fall": 0,
+  "in_dreamteam": false,
+  "dreamteam_count": 0,
+  "selected_by_percent": "1.0",
+  "form": "0.0",
+  "transfers_out": 0,
+  "transfers_in": 0,
+  "transfers_out_event": 0,
+  "transfers_in_event": 0,
+  "event_points": 0,
+  "points_per_game": "0.0",
+  "ep_this": null,
+  "ep_next": "1.6",
+  "special": false,
+  "minutes": 0,
+  "goals_scored": 0,
+  "assists": 0,
+  "clean_sheets": 0,
+  "goals_conceded": 0,
+  "own_goals": 0,
+  "penalties_saved": 0,
+  "penalties_missed": 0,
+  "yellow_cards": 0,
+  "red_cards": 0,
+  "saves": 0,
+  "bonus": 0,
+  "ea_index": 0,
+  "bps": 0,
+  "element_type": 2,
+  "team": 8
+}

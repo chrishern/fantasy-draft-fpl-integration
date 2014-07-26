@@ -4,9 +4,10 @@
 package net.blackcat.fantasy.draft.fpl.integration.client;
 
 import net.blackcat.fantasy.draft.fpl.integration.exception.FantasyPremierLeagueException;
-import net.blackcat.fantasy.draft.fpl.integration.exception.FantasyPremierLeagueResponseErrorHandler;
 import net.blackcat.fantasy.draft.fpl.integration.model.FantasyPremierLeaguePlayer;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,36 +20,33 @@ import org.springframework.web.client.RestTemplate;
 @Service(value = "playerDataClient")
 public class PlayerDataClient {
 
+	@Autowired
+	@Qualifier(value = "fplRestTemplate")
 	private RestTemplate restTemplate;
 	
 	private static final String ENDPOINT = "http://fantasy.premierleague.com/web/api/elements/%s/";
 
-	public PlayerDataClient() {
-		restTemplate = new RestTemplate();
-		restTemplate.setErrorHandler(new FantasyPremierLeagueResponseErrorHandler());
-	}
-	
 	public FantasyPremierLeaguePlayer getPlayer(int playerId) throws FantasyPremierLeagueException {
 		final String url = String.format(ENDPOINT, playerId);
 		
 		final FantasyPremierLeaguePlayer player = restTemplate.getForObject(url, FantasyPremierLeaguePlayer.class);
 		
-		System.out.println("Player name: " + player.getFirst_name() + " " + player.getSecond_name());
-		System.out.println("Team: " + player.getTeam_name());
-		System.out.println("Position: " + player.getType_name());
+//		System.out.println("Player name: " + player.getFirst_name() + " " + player.getSecond_name());
+//		System.out.println("Team: " + player.getTeam_name());
+//		System.out.println("Position: " + player.getType_name());
 		
 		return player;
 	}
 	
-	public static void main(final String [] args) {
-		final PlayerDataClient client = new PlayerDataClient();
-		
-		for (int i = 0; i < 40; i++) {
-			try {
-				client.getPlayer(i);
-			} catch (final FantasyPremierLeagueException e) {
-				System.out.println("Custom exception.  " + e.getStatusCode() + ", " + e.getBody()); 
-			}
-		}
-	}
+//	public static void main(final String [] args) {
+//		final PlayerDataClient client = new PlayerDataClient();
+//		
+//		for (int i = 0; i < 40; i++) {
+//			try {
+//				client.getPlayer(i);
+//			} catch (final FantasyPremierLeagueException e) {
+//				System.out.println("Custom exception.  " + e.getStatusCode() + ", " + e.getBody()); 
+//			}
+//		}
+//	}
 }
