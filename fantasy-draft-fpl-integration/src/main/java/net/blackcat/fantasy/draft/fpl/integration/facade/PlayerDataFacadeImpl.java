@@ -63,6 +63,7 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 				atLeastOneSuccessfulRead = true;
 			} catch (final FantasyPremierLeagueException e) {
 				handleRestClientException(atLeastOneSuccessfulRead, e);
+				break;
 			}
 		}
 		return atLeastOneSuccessfulRead;
