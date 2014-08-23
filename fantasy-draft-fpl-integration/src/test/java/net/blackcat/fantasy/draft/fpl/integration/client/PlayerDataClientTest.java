@@ -86,7 +86,7 @@ public class PlayerDataClientTest {
     		.andRespond(withStatus(HttpStatus.NOT_FOUND));
 	
 		// act
-		final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(playerToRequest);
+		playerDataClient.getPlayer(playerToRequest);
 		
 		// assert
 		Assert.fail("Exception expected.");
