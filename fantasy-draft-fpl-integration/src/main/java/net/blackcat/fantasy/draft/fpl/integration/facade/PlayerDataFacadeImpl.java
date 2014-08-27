@@ -9,8 +9,12 @@ import java.util.List;
 import net.blackcat.fantasy.draft.fpl.integration.client.PlayerDataClient;
 import net.blackcat.fantasy.draft.fpl.integration.exception.FantasyPremierLeagueException;
 import net.blackcat.fantasy.draft.fpl.integration.model.FantasyPremierLeaguePlayer;
+import net.blackcat.fantasy.draft.integration.controller.GameweekScoreController;
 import net.blackcat.fantasy.draft.integration.controller.PlayerController;
+import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import net.blackcat.fantasy.draft.player.Player;
+import net.blackcat.fantasy.draft.player.types.PlayerSelectionStatus;
+import net.blackcat.fantasy.draft.player.types.Position;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,6 +40,11 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 	@Qualifier(value = "playerIntegrationController")
 	private PlayerController playerIntegrationController;
 	
+	@Autowired
+	@Qualifier(value = "gameweekScoreIntegrationController")
+	private GameweekScoreController gameweekScoreIntegrationController;
+	
+	@Override
 	public void performInitialPlayerDataLoad() {
 		final List<Player> draftPlayers = new ArrayList<Player>();
 		final boolean atLeastOneSuccessfulRead = buildPlayerListFromRestClient(draftPlayers);
@@ -46,6 +55,23 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 		
 	}
 
+	@Override
+	public void populatePlayerScores(final int gameweek) {
+		final List<GameweekScorePlayer> playersWithScores = new ArrayList<GameweekScorePlayer>();
+		
+		for (final Position playerPosition : Position.values()) {
+			final List<Player> selectedPlayers = playerIntegrationController.getPlayers(playerPosition, PlayerSelectionStatus.SELECTED);
+			
+			for (final Player selectedPlayer : selectedPlayers) {
+				final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(selectedPlayer.getId());
+				
+				playersWithScores.add(fplPlayer.toGameweekScorePlayer());
+			}
+		}
+		
+		gameweekScoreIntegrationController.storeGameweekScores(playersWithScores);
+	}
+	
 	/**
 	 * Build up a list of {@link Player} objects from FPL using the REST client
 	 * 
