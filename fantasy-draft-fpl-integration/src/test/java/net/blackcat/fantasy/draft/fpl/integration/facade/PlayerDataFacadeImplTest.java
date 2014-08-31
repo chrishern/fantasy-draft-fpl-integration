@@ -4,6 +4,7 @@
 package net.blackcat.fantasy.draft.fpl.integration.facade;
 
 import static org.fest.assertions.Assertions.assertThat;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -12,6 +13,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import net.blackcat.fantasy.draft.fpl.integration.client.PlayerDataClient;
 import net.blackcat.fantasy.draft.fpl.integration.exception.FantasyPremierLeagueException;
@@ -72,7 +74,7 @@ public class PlayerDataFacadeImplTest {
 	private ArgumentCaptor<List<Player>> playerListCaptor;
 	
 	@Captor
-	private ArgumentCaptor<List<GameweekScorePlayer>> gameweekScorePlayerListCaptor;
+	private ArgumentCaptor<Map<Integer, GameweekScorePlayer>> gameweekScorePlayerListCaptor;
 	
 	private FantasyPremierLeaguePlayer player1;
 	private FantasyPremierLeaguePlayer player2;
@@ -181,11 +183,11 @@ public class PlayerDataFacadeImplTest {
 		playerDataFacade.populatePlayerScores(1);
 		
 		// assert
-		verify(gameweekScoreIntegrationController).storeGameweekScores(gameweekScorePlayerListCaptor.capture());
+		verify(gameweekScoreIntegrationController).storeGameweekScores(anyInt(), gameweekScorePlayerListCaptor.capture());
 		
-		assertThat(gameweekScorePlayerListCaptor.getValue()).hasSize(2);
+		assertThat(gameweekScorePlayerListCaptor.getValue().entrySet()).hasSize(2);
 		
-		assertThat(gameweekScorePlayerListCaptor.getValue().get(0).getId()).isEqualTo(MODEL_PLAYER_1_ID);
-		assertThat(gameweekScorePlayerListCaptor.getValue().get(1).getId()).isEqualTo(MODEL_PLAYER_2_ID);
+		assertThat(gameweekScorePlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getId()).isEqualTo(MODEL_PLAYER_1_ID);
+		assertThat(gameweekScorePlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getId()).isEqualTo(MODEL_PLAYER_2_ID);
 	}
 }

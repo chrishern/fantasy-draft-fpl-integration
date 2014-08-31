@@ -4,7 +4,9 @@
 package net.blackcat.fantasy.draft.fpl.integration.facade;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.blackcat.fantasy.draft.fpl.integration.client.PlayerDataClient;
 import net.blackcat.fantasy.draft.fpl.integration.exception.FantasyPremierLeagueException;
@@ -57,7 +59,9 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 
 	@Override
 	public void populatePlayerScores(final int gameweek) {
-		final List<GameweekScorePlayer> playersWithScores = new ArrayList<GameweekScorePlayer>();
+		final Map<Integer, GameweekScorePlayer> playersWithScores = new HashMap<Integer, GameweekScorePlayer>();
+		
+		System.out.println("Starting read of FPL data");
 		
 		for (final Position playerPosition : Position.values()) {
 			final List<Player> selectedPlayers = playerIntegrationController.getPlayers(playerPosition, PlayerSelectionStatus.SELECTED);
@@ -65,11 +69,16 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 			for (final Player selectedPlayer : selectedPlayers) {
 				final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(selectedPlayer.getId());
 				
-				playersWithScores.add(fplPlayer.toGameweekScorePlayer());
+				playersWithScores.put(selectedPlayer.getId(), fplPlayer.toGameweekScorePlayer());
+				
+				System.out.println("Stored data for player " + selectedPlayer.getForename() + " " + selectedPlayer.getSurname());
 			}
 		}
 		
-		gameweekScoreIntegrationController.storeGameweekScores(playersWithScores);
+		System.out.println("Finished read of FPL data");
+		System.out.println();
+		
+		gameweekScoreIntegrationController.storeGameweekScores(gameweek, playersWithScores);
 	}
 	
 	/**
