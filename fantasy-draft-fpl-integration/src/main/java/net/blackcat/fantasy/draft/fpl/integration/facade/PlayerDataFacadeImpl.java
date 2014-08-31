@@ -58,7 +58,7 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 	}
 
 	@Override
-	public void populatePlayerScores(final int gameweek) {
+	public void populatePlayerScores() {
 		final Map<Integer, GameweekScorePlayer> playersWithScores = new HashMap<Integer, GameweekScorePlayer>();
 		
 		System.out.println("Starting read of FPL data");
@@ -78,7 +78,7 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 		System.out.println("Finished read of FPL data");
 		System.out.println();
 		
-		gameweekScoreIntegrationController.storeGameweekScores(gameweek, playersWithScores);
+		gameweekScoreIntegrationController.storeGameweekScores(playersWithScores);
 	}
 	
 	/**

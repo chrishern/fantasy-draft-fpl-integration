@@ -28,12 +28,15 @@ public class CalculateGameweekPointsController {
 		ctx.registerShutdownHook();
 		
 		final CalculateGameweekPointsController mainMethod = ctx.getBean(CalculateGameweekPointsController.class);
-		mainMethod.calculateGameweekPoints(2);
+		mainMethod.calculateGameweekPoints();
 		
 		ctx.close();
 	}
 	
-	public void calculateGameweekPoints(final int gameweek) {
-		playerDataFacade.populatePlayerScores(gameweek);
+	/**
+	 * Calculate the gameweek points for the current gameweek.
+	 */
+	public void calculateGameweekPoints() {
+		playerDataFacade.populatePlayerScores();
 	}
 }

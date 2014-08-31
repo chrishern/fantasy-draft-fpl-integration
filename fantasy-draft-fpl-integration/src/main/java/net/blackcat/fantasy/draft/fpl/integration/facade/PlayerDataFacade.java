@@ -17,9 +17,7 @@ public interface PlayerDataFacade {
 	void performInitialPlayerDataLoad();
 	
 	/**
-	 * Populate the player scores for a given gameweek.
-	 * 
-	 * @param gameweek Gameweek to populate the player scores for.
+	 * Populate the player scores for the current gameweek.
 	 */
-	void populatePlayerScores(int gameweek);
+	void populatePlayerScores();
 }

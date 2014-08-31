@@ -4,7 +4,6 @@
 package net.blackcat.fantasy.draft.fpl.integration.facade;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -180,10 +179,10 @@ public class PlayerDataFacadeImplTest {
 		when(playerDataClient.getPlayer(MODEL_PLAYER_2_ID)).thenReturn(player2);
 		
 		// act
-		playerDataFacade.populatePlayerScores(1);
+		playerDataFacade.populatePlayerScores();
 		
 		// assert
-		verify(gameweekScoreIntegrationController).storeGameweekScores(anyInt(), gameweekScorePlayerListCaptor.capture());
+		verify(gameweekScoreIntegrationController).storeGameweekScores(gameweekScorePlayerListCaptor.capture());
 		
 		assertThat(gameweekScorePlayerListCaptor.getValue().entrySet()).hasSize(2);
 		
