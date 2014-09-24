@@ -10,7 +10,7 @@ import java.util.List;
 
 import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import net.blackcat.fantasy.draft.player.Player;
-import net.blackcat.fantasy.draft.player.PopulateInitialFplCostPlayer;
+import net.blackcat.fantasy.draft.player.FplCostPlayer;
 import net.blackcat.fantasy.draft.player.types.Position;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -207,11 +207,11 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 	}
 	
 	/**
-	 * Convert this object into a draft model {@link PopulateInitialFplCostPlayer}.
+	 * Convert this object into a draft model {@link FplCostPlayer}.
 	 * 
-	 * @return Converted {@link PopulateInitialFplCostPlayer}.
+	 * @return Converted {@link FplCostPlayer}.
 	 */
-	public PopulateInitialFplCostPlayer toPopulateInitialFplCostPlayer() {
+	public FplCostPlayer toPopulateInitialFplCostPlayer() {
 		final BigDecimal costChange = new BigDecimal(cost_change_start);
 		final BigDecimal decimalCostChange = costChange.multiply(new BigDecimal("0.1"));
 		
@@ -220,6 +220,6 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 		
 		final BigDecimal initialCost = decimalCostNow.subtract(decimalCostChange);
 		
-		return new PopulateInitialFplCostPlayer(id, initialCost);
+		return new FplCostPlayer(id, initialCost);
 	}
 }

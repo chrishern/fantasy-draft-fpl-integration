@@ -22,7 +22,7 @@ import net.blackcat.fantasy.draft.integration.controller.PlayerController;
 import net.blackcat.fantasy.draft.integration.controller.TeamController;
 import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import net.blackcat.fantasy.draft.player.Player;
-import net.blackcat.fantasy.draft.player.PopulateInitialFplCostPlayer;
+import net.blackcat.fantasy.draft.player.FplCostPlayer;
 import net.blackcat.fantasy.draft.player.types.PlayerSelectionStatus;
 import net.blackcat.fantasy.draft.player.types.Position;
 
@@ -90,7 +90,7 @@ public class PlayerDataFacadeImplTest {
 	private ArgumentCaptor<Map<Integer, GameweekScorePlayer>> gameweekScorePlayerListCaptor;
 	
 	@Captor
-	private ArgumentCaptor<Map<Integer, PopulateInitialFplCostPlayer>> initialCostPlayerListCaptor;
+	private ArgumentCaptor<Map<Integer, FplCostPlayer>> initialCostPlayerListCaptor;
 	
 	private FantasyPremierLeaguePlayer player1;
 	private FantasyPremierLeaguePlayer player2;

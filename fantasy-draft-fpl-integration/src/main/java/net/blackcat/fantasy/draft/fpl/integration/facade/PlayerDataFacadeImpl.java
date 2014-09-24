@@ -16,7 +16,7 @@ import net.blackcat.fantasy.draft.integration.controller.PlayerController;
 import net.blackcat.fantasy.draft.integration.controller.TeamController;
 import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import net.blackcat.fantasy.draft.player.Player;
-import net.blackcat.fantasy.draft.player.PopulateInitialFplCostPlayer;
+import net.blackcat.fantasy.draft.player.FplCostPlayer;
 import net.blackcat.fantasy.draft.player.types.PlayerSelectionStatus;
 import net.blackcat.fantasy.draft.player.types.Position;
 
@@ -89,7 +89,7 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 
 	@Override
 	public void updatePlayersWithInitialPurchasePrice() {
-		final Map<Integer, PopulateInitialFplCostPlayer> playersWithScores = new HashMap<Integer, PopulateInitialFplCostPlayer>();
+		final Map<Integer, FplCostPlayer> playersWithScores = new HashMap<Integer, FplCostPlayer>();
 		
 		for (final Position playerPosition : Position.values()) {
 			final List<Player> selectedPlayers = playerIntegrationController.getPlayers(playerPosition, PlayerSelectionStatus.SELECTED);
