@@ -4,11 +4,13 @@
 package net.blackcat.fantasy.draft.fpl.integration.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import net.blackcat.fantasy.draft.player.Player;
+import net.blackcat.fantasy.draft.player.PopulateInitialFplCostPlayer;
 import net.blackcat.fantasy.draft.player.types.Position;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,6 +33,8 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 	private String type_name;
 	private List<Object> event_explain;
 	private int event_total;
+	private int now_cost;
+	private int cost_change_start;
 	
 	/**
 	 * @return the id
@@ -131,6 +135,34 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 	}
 
 	/**
+	 * @return the now_cost
+	 */
+	public int getNow_cost() {
+		return now_cost;
+	}
+
+	/**
+	 * @param now_cost the now_cost to set
+	 */
+	public void setNow_cost(int now_cost) {
+		this.now_cost = now_cost;
+	}
+
+	/**
+	 * @return the cost_change_start
+	 */
+	public int getCost_change_start() {
+		return cost_change_start;
+	}
+
+	/**
+	 * @param cost_change_start the cost_change_start to set
+	 */
+	public void setCost_change_start(int cost_change_start) {
+		this.cost_change_start = cost_change_start;
+	}
+
+	/**
 	 * Convert this object into a draft model {@link Player}.
 	 * 
 	 * @return Converted draft model {@link Player}.
@@ -172,5 +204,22 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 		}
 		
 		return gameweekScore;
+	}
+	
+	/**
+	 * Convert this object into a draft model {@link PopulateInitialFplCostPlayer}.
+	 * 
+	 * @return Converted {@link PopulateInitialFplCostPlayer}.
+	 */
+	public PopulateInitialFplCostPlayer toPopulateInitialFplCostPlayer() {
+		final BigDecimal costChange = new BigDecimal(cost_change_start);
+		final BigDecimal decimalCostChange = costChange.multiply(new BigDecimal("0.1"));
+		
+		final BigDecimal costNow = new BigDecimal(now_cost);
+		final BigDecimal decimalCostNow = costNow.multiply(new BigDecimal("0.1"));
+		
+		final BigDecimal initialCost = decimalCostNow.subtract(decimalCostChange);
+		
+		return new PopulateInitialFplCostPlayer(id, initialCost);
 	}
 }

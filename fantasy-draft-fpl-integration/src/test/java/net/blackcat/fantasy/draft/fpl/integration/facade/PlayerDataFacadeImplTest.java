@@ -19,8 +19,10 @@ import net.blackcat.fantasy.draft.fpl.integration.exception.FantasyPremierLeague
 import net.blackcat.fantasy.draft.fpl.integration.model.FantasyPremierLeaguePlayer;
 import net.blackcat.fantasy.draft.integration.controller.GameweekScoreController;
 import net.blackcat.fantasy.draft.integration.controller.PlayerController;
+import net.blackcat.fantasy.draft.integration.controller.TeamController;
 import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import net.blackcat.fantasy.draft.player.Player;
+import net.blackcat.fantasy.draft.player.PopulateInitialFplCostPlayer;
 import net.blackcat.fantasy.draft.player.types.PlayerSelectionStatus;
 import net.blackcat.fantasy.draft.player.types.Position;
 
@@ -42,18 +44,27 @@ import org.springframework.http.HttpStatus;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PlayerDataFacadeImplTest {
-
+	
 	private static final int MODEL_PLAYER_1_ID = 1;
 	private static final int MODEL_PLAYER_2_ID = 2;
+	
 	private static final String GOALKEEPER = "Goalkeeper";
 	private static final String DEFENDER = "Defender";
+	
 	private static final String BAD_REQUEST = "Bad request";
 	private static final String NOT_FOUND = "Not found";
+	
 	private static final String FORENAME = "Player";
 	private static final String SURNAME_ONE = "One";
 	private static final String TEAM_ONE = "Team1";
+	private static final int PLAYER_1_COST_CHANGE = 2;
+	private static final int PLAYER_1_COST_NOW = 72;
+
 	private static final String SURNAME_TWO = "Two";
 	private static final String TEAM_TWO = "Team2";
+	private static final int PLAYER_2_COST_CHANGE = -3;
+	private static final int PLAYER_2_COST_NOW = 102;
+	
 	private static final int MINUTES_PLAYED_VALUE = 45;
 	private static final String MINUTES_PLAYED_LABEL = "Minutes played";
 
@@ -62,6 +73,9 @@ public class PlayerDataFacadeImplTest {
 	
 	@Mock
 	private PlayerController playerIntegrationController;
+	
+	@Mock
+	private TeamController teamIntegrationController;
 	
 	@Mock
 	private GameweekScoreController gameweekScoreIntegrationController;
@@ -75,8 +89,14 @@ public class PlayerDataFacadeImplTest {
 	@Captor
 	private ArgumentCaptor<Map<Integer, GameweekScorePlayer>> gameweekScorePlayerListCaptor;
 	
+	@Captor
+	private ArgumentCaptor<Map<Integer, PopulateInitialFplCostPlayer>> initialCostPlayerListCaptor;
+	
 	private FantasyPremierLeaguePlayer player1;
 	private FantasyPremierLeaguePlayer player2;
+	
+	private Player modelPlayer1;
+	private Player modelPlayer2;
 	
 	@Before
 	public void setup() {
@@ -86,6 +106,8 @@ public class PlayerDataFacadeImplTest {
 		player1.setSecond_name(SURNAME_ONE);
 		player1.setTeam_name(TEAM_ONE);
 		player1.setType_name(GOALKEEPER);
+		player1.setNow_cost(PLAYER_1_COST_NOW);
+		player1.setCost_change_start(PLAYER_1_COST_CHANGE);
 		
 		player2 = new FantasyPremierLeaguePlayer();
 		player2.setId(MODEL_PLAYER_2_ID);
@@ -93,6 +115,14 @@ public class PlayerDataFacadeImplTest {
 		player2.setSecond_name(SURNAME_TWO);
 		player2.setTeam_name(TEAM_TWO);
 		player2.setType_name(DEFENDER);
+		player2.setNow_cost(PLAYER_2_COST_NOW);
+		player2.setCost_change_start(PLAYER_2_COST_CHANGE);
+		
+		modelPlayer1 = new Player();
+		modelPlayer1.setId(MODEL_PLAYER_1_ID);
+		
+		modelPlayer2 = new Player();
+		modelPlayer2.setId(MODEL_PLAYER_2_ID);
 	}
 	
 	@Test
@@ -153,12 +183,6 @@ public class PlayerDataFacadeImplTest {
 	@Test
 	public void testPopulatePlayerScores() {
 		// arrange
-		final Player modelPlayer1 = new Player();
-		modelPlayer1.setId(MODEL_PLAYER_1_ID);
-		
-		final Player modelPlayer2 = new Player();
-		modelPlayer2.setId(MODEL_PLAYER_2_ID);
-		
 		final List<Object> eventExplain = new ArrayList<Object>();
 		
 		final List<Object> eventExplainMinsPlayed = new ArrayList<Object>();
@@ -188,5 +212,31 @@ public class PlayerDataFacadeImplTest {
 		
 		assertThat(gameweekScorePlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getId()).isEqualTo(MODEL_PLAYER_1_ID);
 		assertThat(gameweekScorePlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getId()).isEqualTo(MODEL_PLAYER_2_ID);
+	}
+	
+	@Test
+	public void testUpdatePlayersWithInitialPurchasePrice() {
+		// arrange
+		when(playerDataClient.getPlayer(1)).thenReturn(player1);
+		when(playerDataClient.getPlayer(2)).thenReturn(player2);
+		
+		when(playerIntegrationController.getPlayers(Position.GOALKEEPER, PlayerSelectionStatus.SELECTED)).thenReturn(Arrays.asList(modelPlayer1));
+		when(playerIntegrationController.getPlayers(Position.DEFENDER, PlayerSelectionStatus.SELECTED)).thenReturn(Arrays.asList(modelPlayer2));
+		when(playerIntegrationController.getPlayers(Position.MIDFIEDER, PlayerSelectionStatus.SELECTED)).thenReturn(new ArrayList<Player>());
+		when(playerIntegrationController.getPlayers(Position.STRIKER, PlayerSelectionStatus.SELECTED)).thenReturn(new ArrayList<Player>());
+		
+		// act
+		playerDataFacade.updatePlayersWithInitialPurchasePrice();
+		
+		// assert
+		verify(teamIntegrationController).updateSelectedPlayersWithIntialFplCost(initialCostPlayerListCaptor.capture());
+		
+		assertThat(initialCostPlayerListCaptor.getValue().entrySet()).hasSize(2);
+		
+		assertThat(initialCostPlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getId()).isEqualTo(MODEL_PLAYER_1_ID);
+		assertThat(initialCostPlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getInitialCost().doubleValue()).isEqualTo(7.0);
+		
+		assertThat(initialCostPlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getId()).isEqualTo(MODEL_PLAYER_2_ID);
+		assertThat(initialCostPlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getInitialCost().doubleValue()).isEqualTo(10.5);
 	}
 }

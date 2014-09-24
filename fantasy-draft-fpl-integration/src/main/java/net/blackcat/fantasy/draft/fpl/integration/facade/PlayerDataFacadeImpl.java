@@ -13,8 +13,10 @@ import net.blackcat.fantasy.draft.fpl.integration.exception.FantasyPremierLeague
 import net.blackcat.fantasy.draft.fpl.integration.model.FantasyPremierLeaguePlayer;
 import net.blackcat.fantasy.draft.integration.controller.GameweekScoreController;
 import net.blackcat.fantasy.draft.integration.controller.PlayerController;
+import net.blackcat.fantasy.draft.integration.controller.TeamController;
 import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import net.blackcat.fantasy.draft.player.Player;
+import net.blackcat.fantasy.draft.player.PopulateInitialFplCostPlayer;
 import net.blackcat.fantasy.draft.player.types.PlayerSelectionStatus;
 import net.blackcat.fantasy.draft.player.types.Position;
 
@@ -45,6 +47,10 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 	@Autowired
 	@Qualifier(value = "gameweekScoreIntegrationController")
 	private GameweekScoreController gameweekScoreIntegrationController;
+	
+	@Autowired
+	@Qualifier(value = "teamIntegrationController")
+	private TeamController teamIntegrationController;
 	
 	@Override
 	public void performInitialPlayerDataLoad() {
@@ -79,6 +85,23 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 		System.out.println();
 		
 		gameweekScoreIntegrationController.storeGameweekScores(playersWithScores);
+	}
+
+	@Override
+	public void updatePlayersWithInitialPurchasePrice() {
+		final Map<Integer, PopulateInitialFplCostPlayer> playersWithScores = new HashMap<Integer, PopulateInitialFplCostPlayer>();
+		
+		for (final Position playerPosition : Position.values()) {
+			final List<Player> selectedPlayers = playerIntegrationController.getPlayers(playerPosition, PlayerSelectionStatus.SELECTED);
+			
+			for (final Player selectedPlayer : selectedPlayers) {
+				final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(selectedPlayer.getId());
+				
+				playersWithScores.put(selectedPlayer.getId(), fplPlayer.toPopulateInitialFplCostPlayer());
+			}
+		}
+		
+		teamIntegrationController.updateSelectedPlayersWithIntialFplCost(playersWithScores);
 	}
 	
 	/**
@@ -130,4 +153,5 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 			final FantasyPremierLeagueException exception) {
 		return atLeastOneSuccessfulRead && HttpStatus.NOT_FOUND == exception.getStatusCode();
 	}
+
 }
