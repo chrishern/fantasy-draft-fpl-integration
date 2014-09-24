@@ -97,7 +97,7 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 			for (final Player selectedPlayer : selectedPlayers) {
 				final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(selectedPlayer.getId());
 				
-				playersWithScores.put(selectedPlayer.getId(), fplPlayer.toPopulateInitialFplCostPlayer());
+				playersWithScores.put(selectedPlayer.getId(), fplPlayer.toPopulateFplCostPlayer());
 			}
 		}
 		

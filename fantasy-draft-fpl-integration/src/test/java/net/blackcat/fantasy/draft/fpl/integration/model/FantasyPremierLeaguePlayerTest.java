@@ -8,6 +8,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.blackcat.fantasy.draft.player.FplCostPlayer;
 import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 
 import org.junit.Test;
@@ -20,6 +21,9 @@ import org.junit.Test;
  */
 public class FantasyPremierLeaguePlayerTest {
 
+	private static final double PLAYER_INITIAL_COST = 10.5d;
+	private static final int PLAYER_COST_CHANGE = -1;
+	private static final int PLAYER_PRICE_NOW = 104;
 	private static final int POINTS_SCORED = 1;
 	private static final int MINUTES_PLAYED_VALUE = 45;
 	private static final String MINUTES_PLAYED_LABEL = "Minutes played";
@@ -49,6 +53,22 @@ public class FantasyPremierLeaguePlayerTest {
 		assertThat(gameweekScorePlayer.getId()).isEqualTo(PLAYER_ID);
 		assertThat(gameweekScorePlayer.getMinutesPlayed()).isEqualTo(MINUTES_PLAYED_VALUE);
 		assertThat(gameweekScorePlayer.getScore()).isEqualTo(POINTS_SCORED);
+	}
+	
+	@Test
+	public void testToPopulateInitialFplCostPlayer() {
+		// arrange
+		final FantasyPremierLeaguePlayer fplPlayer = new FantasyPremierLeaguePlayer();
+		fplPlayer.setId(PLAYER_ID);
+		fplPlayer.setNow_cost(PLAYER_PRICE_NOW);
+		fplPlayer.setCost_change_start(PLAYER_COST_CHANGE);
+		
+		// act
+		final FplCostPlayer fplCostPlayer = fplPlayer.toPopulateFplCostPlayer();
+		
+		// assert
+		assertThat(fplCostPlayer.getId()).isEqualTo(PLAYER_ID);
+		assertThat(fplCostPlayer.getInitialCost().doubleValue()).isEqualTo(PLAYER_INITIAL_COST);
 	}
 
 }

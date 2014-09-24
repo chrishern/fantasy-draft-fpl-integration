@@ -211,7 +211,7 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 	 * 
 	 * @return Converted {@link FplCostPlayer}.
 	 */
-	public FplCostPlayer toPopulateInitialFplCostPlayer() {
+	public FplCostPlayer toPopulateFplCostPlayer() {
 		final BigDecimal costChange = new BigDecimal(cost_change_start);
 		final BigDecimal decimalCostChange = costChange.multiply(new BigDecimal("0.1"));
 		
