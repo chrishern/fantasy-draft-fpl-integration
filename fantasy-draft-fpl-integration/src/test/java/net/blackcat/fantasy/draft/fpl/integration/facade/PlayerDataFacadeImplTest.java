@@ -20,9 +20,9 @@ import net.blackcat.fantasy.draft.fpl.integration.model.FantasyPremierLeaguePlay
 import net.blackcat.fantasy.draft.integration.controller.GameweekScoreController;
 import net.blackcat.fantasy.draft.integration.controller.PlayerController;
 import net.blackcat.fantasy.draft.integration.controller.TeamController;
+import net.blackcat.fantasy.draft.player.FplCostPlayer;
 import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import net.blackcat.fantasy.draft.player.Player;
-import net.blackcat.fantasy.draft.player.FplCostPlayer;
 import net.blackcat.fantasy.draft.player.types.PlayerSelectionStatus;
 import net.blackcat.fantasy.draft.player.types.Position;
 
@@ -90,7 +90,7 @@ public class PlayerDataFacadeImplTest {
 	private ArgumentCaptor<Map<Integer, GameweekScorePlayer>> gameweekScorePlayerListCaptor;
 	
 	@Captor
-	private ArgumentCaptor<Map<Integer, FplCostPlayer>> initialCostPlayerListCaptor;
+	private ArgumentCaptor<Map<Integer, FplCostPlayer>> costPlayerListCaptor;
 	
 	private FantasyPremierLeaguePlayer player1;
 	private FantasyPremierLeaguePlayer player2;
@@ -229,14 +229,37 @@ public class PlayerDataFacadeImplTest {
 		playerDataFacade.updatePlayersWithInitialPurchasePrice();
 		
 		// assert
-		verify(teamIntegrationController).updateSelectedPlayersWithIntialFplCost(initialCostPlayerListCaptor.capture());
+		verify(teamIntegrationController).updateSelectedPlayersWithIntialFplCost(costPlayerListCaptor.capture());
 		
-		assertThat(initialCostPlayerListCaptor.getValue().entrySet()).hasSize(2);
+		assertThat(costPlayerListCaptor.getValue().entrySet()).hasSize(2);
 		
-		assertThat(initialCostPlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getId()).isEqualTo(MODEL_PLAYER_1_ID);
-		assertThat(initialCostPlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getInitialCost().doubleValue()).isEqualTo(7.0);
+		assertThat(costPlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getId()).isEqualTo(MODEL_PLAYER_1_ID);
+		assertThat(costPlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getInitialCost().doubleValue()).isEqualTo(7.0);
 		
-		assertThat(initialCostPlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getId()).isEqualTo(MODEL_PLAYER_2_ID);
-		assertThat(initialCostPlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getInitialCost().doubleValue()).isEqualTo(10.5);
+		assertThat(costPlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getId()).isEqualTo(MODEL_PLAYER_2_ID);
+		assertThat(costPlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getInitialCost().doubleValue()).isEqualTo(10.5);
+	}
+	
+	@Test
+	public void testUpdatePlayersCurrentPrice() {
+		// arrange
+		when(playerIntegrationController.getPlayers()).thenReturn(Arrays.asList(modelPlayer1, modelPlayer2));
+		
+		when(playerDataClient.getPlayer(1)).thenReturn(player1);
+		when(playerDataClient.getPlayer(2)).thenReturn(player2);
+		
+		// act
+		playerDataFacade.updatePlayersCurrentPrice();
+		
+		// assert
+		verify(playerIntegrationController).updatePlayersCurrentPrice(costPlayerListCaptor.capture());
+		
+		assertThat(costPlayerListCaptor.getValue().entrySet()).hasSize(2);
+		
+		assertThat(costPlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getId()).isEqualTo(MODEL_PLAYER_1_ID);
+		assertThat(costPlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getCurrentCost().doubleValue()).isEqualTo(7.2);
+		
+		assertThat(costPlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getId()).isEqualTo(MODEL_PLAYER_2_ID);
+		assertThat(costPlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getCurrentCost().doubleValue()).isEqualTo(10.2);
 	}
 }

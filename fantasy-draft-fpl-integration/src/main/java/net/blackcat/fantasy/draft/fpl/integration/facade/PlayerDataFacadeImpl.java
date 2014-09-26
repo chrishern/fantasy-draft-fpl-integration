@@ -14,9 +14,9 @@ import net.blackcat.fantasy.draft.fpl.integration.model.FantasyPremierLeaguePlay
 import net.blackcat.fantasy.draft.integration.controller.GameweekScoreController;
 import net.blackcat.fantasy.draft.integration.controller.PlayerController;
 import net.blackcat.fantasy.draft.integration.controller.TeamController;
+import net.blackcat.fantasy.draft.player.FplCostPlayer;
 import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import net.blackcat.fantasy.draft.player.Player;
-import net.blackcat.fantasy.draft.player.FplCostPlayer;
 import net.blackcat.fantasy.draft.player.types.PlayerSelectionStatus;
 import net.blackcat.fantasy.draft.player.types.Position;
 
@@ -102,6 +102,19 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 		}
 		
 		teamIntegrationController.updateSelectedPlayersWithIntialFplCost(playersWithScores);
+	}
+	
+	@Override
+	public void updatePlayersCurrentPrice() {
+		final Map<Integer, FplCostPlayer> playersWithScores = new HashMap<Integer, FplCostPlayer>();
+		
+		for (final Player selectedPlayer : playerIntegrationController.getPlayers()) {
+			final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(selectedPlayer.getId());
+			
+			playersWithScores.put(selectedPlayer.getId(), fplPlayer.toPopulateFplCostPlayer());
+		}
+		
+		playerIntegrationController.updatePlayersCurrentPrice(playersWithScores);
 	}
 	
 	/**

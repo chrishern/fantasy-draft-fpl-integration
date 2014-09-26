@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.blackcat.fantasy.draft.player.FplCostPlayer;
 import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import net.blackcat.fantasy.draft.player.Player;
-import net.blackcat.fantasy.draft.player.FplCostPlayer;
 import net.blackcat.fantasy.draft.player.types.Position;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -220,6 +220,6 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 		
 		final BigDecimal initialCost = decimalCostNow.subtract(decimalCostChange);
 		
-		return new FplCostPlayer(id, initialCost);
+		return new FplCostPlayer(id, initialCost, decimalCostNow);
 	}
 }

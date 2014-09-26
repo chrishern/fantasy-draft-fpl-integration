@@ -25,4 +25,9 @@ public interface PlayerDataFacade {
 	 * A one off method used to get the initial FPL purchase price of players that have been selected.
 	 */
 	void updatePlayersWithInitialPurchasePrice();
+	
+	/**
+	 * Update the current price of all players stored based on the current price within Fantasy Premier League.
+	 */
+	void updatePlayersCurrentPrice();
 }

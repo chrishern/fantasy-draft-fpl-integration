@@ -14,16 +14,17 @@ import net.blackcat.fantasy.draft.player.GameweekScorePlayer;
 import org.junit.Test;
 
 /**
- * Unit tests for 
+ * Unit tests for {@link FantasyPremierLeaguePlayer}.
  * 
  * @author Chris
  *
  */
 public class FantasyPremierLeaguePlayerTest {
 
+	private static final double PLAYER_CURRENT_COST_DECIMAL = 10.4d;
 	private static final double PLAYER_INITIAL_COST = 10.5d;
 	private static final int PLAYER_COST_CHANGE = -1;
-	private static final int PLAYER_PRICE_NOW = 104;
+	private static final int PLAYER_CURRENT_COST = 104;
 	private static final int POINTS_SCORED = 1;
 	private static final int MINUTES_PLAYED_VALUE = 45;
 	private static final String MINUTES_PLAYED_LABEL = "Minutes played";
@@ -60,7 +61,7 @@ public class FantasyPremierLeaguePlayerTest {
 		// arrange
 		final FantasyPremierLeaguePlayer fplPlayer = new FantasyPremierLeaguePlayer();
 		fplPlayer.setId(PLAYER_ID);
-		fplPlayer.setNow_cost(PLAYER_PRICE_NOW);
+		fplPlayer.setNow_cost(PLAYER_CURRENT_COST);
 		fplPlayer.setCost_change_start(PLAYER_COST_CHANGE);
 		
 		// act
@@ -69,6 +70,7 @@ public class FantasyPremierLeaguePlayerTest {
 		// assert
 		assertThat(fplCostPlayer.getId()).isEqualTo(PLAYER_ID);
 		assertThat(fplCostPlayer.getInitialCost().doubleValue()).isEqualTo(PLAYER_INITIAL_COST);
+		assertThat(fplCostPlayer.getCurrentCost().doubleValue()).isEqualTo(PLAYER_CURRENT_COST_DECIMAL);
 	}
 
 }
