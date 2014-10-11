@@ -175,6 +175,7 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 		player.setSurname(second_name);
 		player.setTeam(team_name);
 		player.setPosition(Position.fromFantasyPremierLeaguePosition(type_name));
+		player.setFplCost(calculateCostNow());
 		
 		return player;
 	}
@@ -212,14 +213,33 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 	 * @return Converted {@link FplCostPlayer}.
 	 */
 	public FplCostPlayer toPopulateFplCostPlayer() {
+		final BigDecimal costNow = calculateCostNow();
+		final BigDecimal initialCost = calculateInitialCost(costNow);
+		
+		return new FplCostPlayer(id, initialCost, costNow);
+	}
+	
+	/**
+	 * Calculate the current cost of this player.
+	 * 
+	 * @return Current cost of this player
+	 */
+	private BigDecimal calculateCostNow() {
+		final BigDecimal costNow = new BigDecimal(now_cost);
+		
+		return costNow.multiply(new BigDecimal("0.1"));
+	}
+	
+	/**
+	 * Calculate the initial cost of this player.
+	 * 
+	 * @param currentCost The current cost of this player.
+	 * @return Initial cost of this player.
+	 */
+	private BigDecimal calculateInitialCost(final BigDecimal currentCost) {
 		final BigDecimal costChange = new BigDecimal(cost_change_start);
 		final BigDecimal decimalCostChange = costChange.multiply(new BigDecimal("0.1"));
 		
-		final BigDecimal costNow = new BigDecimal(now_cost);
-		final BigDecimal decimalCostNow = costNow.multiply(new BigDecimal("0.1"));
-		
-		final BigDecimal initialCost = decimalCostNow.subtract(decimalCostChange);
-		
-		return new FplCostPlayer(id, initialCost, decimalCostNow);
+		return currentCost.subtract(decimalCostChange);
 	}
 }
