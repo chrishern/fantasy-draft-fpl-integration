@@ -32,6 +32,7 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 	private String team_name;
 	private String type_name;
 	private List<Object> event_explain;
+	private FixtureHistory fixture_history;
 	private int event_total;
 	private int now_cost;
 	private int cost_change_start;
@@ -163,6 +164,20 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 	}
 
 	/**
+	 * @return the fixture_history
+	 */
+	public FixtureHistory getFixture_history() {
+		return fixture_history;
+	}
+
+	/**
+	 * @param fixture_history the fixture_history to set
+	 */
+	public void setFixture_history(FixtureHistory fixture_history) {
+		this.fixture_history = fixture_history;
+	}
+
+	/**
 	 * Convert this object into a draft model {@link Player}.
 	 * 
 	 * @return Converted draft model {@link Player}.
@@ -200,6 +215,33 @@ public class FantasyPremierLeaguePlayer implements Serializable {
 			if (eventLabel.equalsIgnoreCase("Minutes played")) {
 				final Integer minutesPlayed = (Integer) eventExplainItems.get(1);
 				gameweekScore.setMinutesPlayed(minutesPlayed);
+				break;
+			}
+		}
+		
+		return gameweekScore;
+	}
+	
+	/**
+	 * Convert this object into a draft model {@link GameweekScorePlayer} for a specific, historic gameweek.
+	 * 
+	 * @param gameweek The number of the gameweek to get the score for.
+	 * @return Converted {@link GameweekScorePlayer}.
+	 */
+	@SuppressWarnings("unchecked")
+	public GameweekScorePlayer toHistoricalGameweekScorePlayer(final int gameweek) {
+		final GameweekScorePlayer gameweekScore = new GameweekScorePlayer();
+
+		gameweekScore.setId(id);
+
+		for (final Object allGameweeks : fixture_history.getAll()) {
+			final List<Object> gameweekData = (ArrayList<Object>) allGameweeks;
+			
+			final int gameweekNumber = (Integer) gameweekData.get(1);
+			
+			if (gameweekNumber == gameweek) {
+				gameweekScore.setMinutesPlayed((Integer) gameweekData.get(3));
+				gameweekScore.setScore((Integer) gameweekData.get(19));
 				break;
 			}
 		}

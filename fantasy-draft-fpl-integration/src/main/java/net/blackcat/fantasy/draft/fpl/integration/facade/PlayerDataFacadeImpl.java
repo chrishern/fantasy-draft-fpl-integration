@@ -86,6 +86,31 @@ public class PlayerDataFacadeImpl implements PlayerDataFacade {
 		
 		gameweekScoreIntegrationController.storeGameweekScores(playersWithScores);
 	}
+	
+	@Override
+	public void populateHistoricalPlayerScores(final int gameweek) {
+		final Map<Integer, GameweekScorePlayer> playersWithScores = new HashMap<Integer, GameweekScorePlayer>();
+		
+		System.out.println("Starting read of FPL data for gameweek " + gameweek);
+		
+		for (final Position playerPosition : Position.values()) {
+			final List<Player> selectedPlayers = playerIntegrationController.getPlayers(playerPosition, PlayerSelectionStatus.SELECTED);
+			
+			for (final Player selectedPlayer : selectedPlayers) {
+				final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(selectedPlayer.getId());
+				
+				playersWithScores.put(selectedPlayer.getId(), fplPlayer.toHistoricalGameweekScorePlayer(gameweek));
+				
+				System.out.println("Stored data for player " + selectedPlayer.getForename() + " " + selectedPlayer.getSurname());
+			}
+		}
+		
+		System.out.println("Finished read of FPL data for gameweek " + gameweek);
+		System.out.println();
+		
+		gameweekScoreIntegrationController.storeGameweekScores(playersWithScores);
+		
+	}
 
 	@Override
 	public void updatePlayersWithInitialPurchasePrice() {

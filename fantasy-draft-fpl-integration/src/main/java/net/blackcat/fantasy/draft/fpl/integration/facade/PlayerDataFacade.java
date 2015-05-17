@@ -22,6 +22,11 @@ public interface PlayerDataFacade {
 	void populatePlayerScores();
 	
 	/**
+	 * Populate the player scores for a historical gameweek.
+	 */
+	void populateHistoricalPlayerScores(int gameweek);
+	
+	/**
 	 * A one off method used to get the initial FPL purchase price of players that have been selected.
 	 */
 	void updatePlayersWithInitialPurchasePrice();

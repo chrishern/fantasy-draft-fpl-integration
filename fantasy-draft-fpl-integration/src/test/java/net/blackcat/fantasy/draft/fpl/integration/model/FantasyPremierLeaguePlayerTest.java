@@ -73,4 +73,62 @@ public class FantasyPremierLeaguePlayerTest {
 		assertThat(fplCostPlayer.getCurrentCost().doubleValue()).isEqualTo(PLAYER_CURRENT_COST_DECIMAL);
 	}
 
+	@Test
+	public void testToHistoricalGameweekScorePlayer() {
+		// arrange
+		final FantasyPremierLeaguePlayer fplPlayer = new FantasyPremierLeaguePlayer();
+		fplPlayer.setId(PLAYER_ID);
+		fplPlayer.setEvent_total(POINTS_SCORED);
+		
+		final FixtureHistory fixtureHistory = new FixtureHistory();
+		
+		final List<Object> gameweekOne = createGameweekData(1, 90, 10);
+		final List<Object> gameweekTwo = createGameweekData(2, 70, 2);
+		final List<Object> gameweekThree = createGameweekData(3, 41, 6);
+		final List<Object> gameweekFour = createGameweekData(4, 0, 0);
+		
+		final List<Object> allGameweeks = new ArrayList<Object>();
+		allGameweeks.add(gameweekOne);
+		allGameweeks.add(gameweekTwo);
+		allGameweeks.add(gameweekThree);
+		allGameweeks.add(gameweekFour);
+		
+		fixtureHistory.setAll(allGameweeks);
+		fplPlayer.setFixture_history(fixtureHistory);
+		
+		// act
+		final GameweekScorePlayer gameweekScorePlayer = fplPlayer.toHistoricalGameweekScorePlayer(3);
+		
+		// assert
+		assertThat(gameweekScorePlayer.getId()).isEqualTo(PLAYER_ID);
+		assertThat(gameweekScorePlayer.getMinutesPlayed()).isEqualTo(41);
+		assertThat(gameweekScorePlayer.getScore()).isEqualTo(6);
+	}
+
+	private List<Object> createGameweekData(final int gameweekNumber, final int minutesPlayed, final int totalPoints) {
+		final List<Object> gameweekOne = new ArrayList<Object>();
+		
+		gameweekOne.add("16 Aug 17:30");
+		gameweekOne.add(gameweekNumber);
+		gameweekOne.add("CRY(H) 2-1");
+		gameweekOne.add(minutesPlayed);
+		gameweekOne.add(1);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(1);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(3);
+		gameweekOne.add(40);
+		gameweekOne.add(34);
+		gameweekOne.add(0);
+		gameweekOne.add(90);
+		gameweekOne.add(totalPoints);
+		
+		return gameweekOne;
+	}
 }

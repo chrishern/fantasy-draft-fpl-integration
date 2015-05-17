@@ -118,6 +118,8 @@ public class PlayerDataClientTest {
 		assertThat(fplPlayer.getTeam_name()).isEqualTo("Arsenal");
 		assertThat(fplPlayer.getType_name()).isEqualTo("Forward");
 		assertThat(fplPlayer.getEvent_total()).isEqualTo(5);
+		
+		// event_explain tests
 		assertThat(fplPlayer.getEvent_explain()).hasSize(2);
 		assertThat(fplPlayer.getEvent_explain().get(0)).isInstanceOf(ArrayList.class);
 		
@@ -131,5 +133,17 @@ public class PlayerDataClientTest {
 		
 		final Integer minutesPlayer = (Integer) eventExplain.get(1);
 		assertThat(minutesPlayer).isEqualTo(45);
+		
+		// fixture_history tests
+		assertThat(fplPlayer.getFixture_history()).isNotNull();
+		assertThat(fplPlayer.getFixture_history().getAll()).hasSize(2);
+		
+		final List<Object> gameweekOne = (ArrayList<Object>) fplPlayer.getFixture_history().getAll().get(0);
+		
+		final Integer minutesPlayerGameweekOne = (Integer) gameweekOne.get(3);
+		assertThat(minutesPlayerGameweekOne).isEqualTo(29);
+		
+		final Integer totalScoreGameweekOne = (Integer) gameweekOne.get(19);
+		assertThat(totalScoreGameweekOne).isEqualTo(1);
 	}
 }

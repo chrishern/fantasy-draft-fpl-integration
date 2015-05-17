@@ -17,6 +17,7 @@ import java.util.Map;
 import net.blackcat.fantasy.draft.fpl.integration.client.PlayerDataClient;
 import net.blackcat.fantasy.draft.fpl.integration.exception.FantasyPremierLeagueException;
 import net.blackcat.fantasy.draft.fpl.integration.model.FantasyPremierLeaguePlayer;
+import net.blackcat.fantasy.draft.fpl.integration.model.FixtureHistory;
 import net.blackcat.fantasy.draft.integration.controller.GameweekScoreController;
 import net.blackcat.fantasy.draft.integration.controller.PlayerController;
 import net.blackcat.fantasy.draft.integration.controller.TeamController;
@@ -215,6 +216,47 @@ public class PlayerDataFacadeImplTest {
 	}
 	
 	@Test
+	public void testPopulateHistoricalPlayerScores() {
+		// arrange
+		final FixtureHistory fixtureHistory = new FixtureHistory();
+		
+		final List<Object> gameweekOne = createGameweekData(1, 90, 10);
+		final List<Object> gameweekTwo = createGameweekData(2, 70, 2);
+		final List<Object> gameweekThree = createGameweekData(3, 41, 6);
+		final List<Object> gameweekFour = createGameweekData(4, 0, 0);
+		
+		final List<Object> allGameweeks = new ArrayList<Object>();
+		allGameweeks.add(gameweekOne);
+		allGameweeks.add(gameweekTwo);
+		allGameweeks.add(gameweekThree);
+		allGameweeks.add(gameweekFour);
+		
+		fixtureHistory.setAll(allGameweeks);
+		
+		player1.setFixture_history(fixtureHistory);
+		player2.setFixture_history(fixtureHistory);
+		
+		when(playerIntegrationController.getPlayers(Position.GOALKEEPER, PlayerSelectionStatus.SELECTED)).thenReturn(Arrays.asList(modelPlayer1));
+		when(playerIntegrationController.getPlayers(Position.DEFENDER, PlayerSelectionStatus.SELECTED)).thenReturn(Arrays.asList(modelPlayer2));
+		when(playerIntegrationController.getPlayers(Position.MIDFIEDER, PlayerSelectionStatus.SELECTED)).thenReturn(new ArrayList<Player>());
+		when(playerIntegrationController.getPlayers(Position.STRIKER, PlayerSelectionStatus.SELECTED)).thenReturn(new ArrayList<Player>());
+		
+		when(playerDataClient.getPlayer(MODEL_PLAYER_1_ID)).thenReturn(player1);
+		when(playerDataClient.getPlayer(MODEL_PLAYER_2_ID)).thenReturn(player2);
+		
+		// act
+		playerDataFacade.populateHistoricalPlayerScores(1);
+		
+		// assert
+		verify(gameweekScoreIntegrationController).storeGameweekScores(gameweekScorePlayerListCaptor.capture());
+		
+		assertThat(gameweekScorePlayerListCaptor.getValue().entrySet()).hasSize(2);
+		
+		assertThat(gameweekScorePlayerListCaptor.getValue().get(MODEL_PLAYER_1_ID).getId()).isEqualTo(MODEL_PLAYER_1_ID);
+		assertThat(gameweekScorePlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getId()).isEqualTo(MODEL_PLAYER_2_ID);
+	}
+	
+	@Test
 	public void testUpdatePlayersWithInitialPurchasePrice() {
 		// arrange
 		when(playerDataClient.getPlayer(1)).thenReturn(player1);
@@ -261,5 +303,32 @@ public class PlayerDataFacadeImplTest {
 		
 		assertThat(costPlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getId()).isEqualTo(MODEL_PLAYER_2_ID);
 		assertThat(costPlayerListCaptor.getValue().get(MODEL_PLAYER_2_ID).getCurrentCost().doubleValue()).isEqualTo(10.2);
+	}
+	
+	private List<Object> createGameweekData(final int gameweekNumber, final int minutesPlayed, final int totalPoints) {
+		final List<Object> gameweekOne = new ArrayList<Object>();
+		
+		gameweekOne.add("16 Aug 17:30");
+		gameweekOne.add(gameweekNumber);
+		gameweekOne.add("CRY(H) 2-1");
+		gameweekOne.add(minutesPlayed);
+		gameweekOne.add(1);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(1);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(0);
+		gameweekOne.add(3);
+		gameweekOne.add(40);
+		gameweekOne.add(34);
+		gameweekOne.add(0);
+		gameweekOne.add(90);
+		gameweekOne.add(totalPoints);
+		
+		return gameweekOne;
 	}
 }

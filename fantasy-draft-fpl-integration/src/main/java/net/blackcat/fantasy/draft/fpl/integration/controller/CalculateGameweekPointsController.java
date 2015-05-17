@@ -39,4 +39,13 @@ public class CalculateGameweekPointsController {
 	public void calculateGameweekPoints() {
 		playerDataFacade.populatePlayerScores();
 	}
-}
+	
+	/**
+	 * Calculate the gameweek points for a historical gameweek.
+	 * 
+	 * @param gameweek Gameweek to calculate the weekly points for.
+	 */
+	public void calculateHistoricalGameweekPoints(final int gameweek) {
+		playerDataFacade.populateHistoricalPlayerScores(gameweek);
+	}
+ }
