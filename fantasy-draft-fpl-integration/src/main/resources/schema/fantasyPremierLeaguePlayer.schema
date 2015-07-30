@@ -1,0 +1,306 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://jsonschema.net",
+  "type": "object",
+  "properties": {
+    "id": {
+      "id": "http://jsonschema.net/id",
+      "type": "integer"
+    },
+    "photo": {
+      "id": "http://jsonschema.net/photo",
+      "type": "string"
+    },
+    "web_name": {
+      "id": "http://jsonschema.net/web_name",
+      "type": "string"
+    },
+    "event_explain": {
+      "id": "http://jsonschema.net/event_explain",
+      "type": "array",
+      "items": {}
+    },
+    "fixture_history": {
+      "id": "http://jsonschema.net/fixture_history",
+      "type": "object",
+      "properties": {
+        "all": {
+          "id": "http://jsonschema.net/fixture_history/all",
+          "type": "array",
+          "items": {}
+        },
+        "summary": {
+          "id": "http://jsonschema.net/fixture_history/summary",
+          "type": "array",
+          "items": {}
+        }
+      }
+    },
+    "season_history": {
+      "id": "http://jsonschema.net/season_history",
+      "type": "array",
+      "items": {
+        "id": "http://jsonschema.net/season_history/3",
+        "type": "array",
+        "items": {
+          "id": "http://jsonschema.net/season_history/3/16",
+          "type": "string"
+        }
+      }
+    },
+    "fixtures": {
+      "id": "http://jsonschema.net/fixtures",
+      "type": "object",
+      "properties": {
+        "all": {
+          "id": "http://jsonschema.net/fixtures/all",
+          "type": "array",
+          "items": {
+            "id": "http://jsonschema.net/fixtures/all/37",
+            "type": "array",
+            "items": {
+              "id": "http://jsonschema.net/fixtures/all/37/2",
+              "type": "string"
+            }
+          }
+        },
+        "summary": {
+          "id": "http://jsonschema.net/fixtures/summary",
+          "type": "array",
+          "items": {
+            "id": "http://jsonschema.net/fixtures/summary/2",
+            "type": "array",
+            "items": {
+              "id": "http://jsonschema.net/fixtures/summary/2/2",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "event_total": {
+      "id": "http://jsonschema.net/event_total",
+      "type": "integer"
+    },
+    "type_name": {
+      "id": "http://jsonschema.net/type_name",
+      "type": "string"
+    },
+    "team_name": {
+      "id": "http://jsonschema.net/team_name",
+      "type": "string"
+    },
+    "selected_by": {
+      "id": "http://jsonschema.net/selected_by",
+      "type": "string"
+    },
+    "total_points": {
+      "id": "http://jsonschema.net/total_points",
+      "type": "integer"
+    },
+    "current_fixture": {
+      "id": "http://jsonschema.net/current_fixture",
+      "type": "string"
+    },
+    "next_fixture": {
+      "id": "http://jsonschema.net/next_fixture",
+      "type": "string"
+    },
+    "team_code": {
+      "id": "http://jsonschema.net/team_code",
+      "type": "integer"
+    },
+    "news": {
+      "id": "http://jsonschema.net/news",
+      "type": "string"
+    },
+    "team_id": {
+      "id": "http://jsonschema.net/team_id",
+      "type": "integer"
+    },
+    "status": {
+      "id": "http://jsonschema.net/status",
+      "type": "string"
+    },
+    "code": {
+      "id": "http://jsonschema.net/code",
+      "type": "integer"
+    },
+    "first_name": {
+      "id": "http://jsonschema.net/first_name",
+      "type": "string"
+    },
+    "second_name": {
+      "id": "http://jsonschema.net/second_name",
+      "type": "string"
+    },
+    "now_cost": {
+      "id": "http://jsonschema.net/now_cost",
+      "type": "integer"
+    },
+    "chance_of_playing_this_round": {
+      "id": "http://jsonschema.net/chance_of_playing_this_round",
+      "type": "null"
+    },
+    "chance_of_playing_next_round": {
+      "id": "http://jsonschema.net/chance_of_playing_next_round",
+      "type": "integer"
+    },
+    "value_form": {
+      "id": "http://jsonschema.net/value_form",
+      "type": "string"
+    },
+    "value_season": {
+      "id": "http://jsonschema.net/value_season",
+      "type": "string"
+    },
+    "cost_change_start": {
+      "id": "http://jsonschema.net/cost_change_start",
+      "type": "integer"
+    },
+    "cost_change_event": {
+      "id": "http://jsonschema.net/cost_change_event",
+      "type": "integer"
+    },
+    "cost_change_start_fall": {
+      "id": "http://jsonschema.net/cost_change_start_fall",
+      "type": "integer"
+    },
+    "cost_change_event_fall": {
+      "id": "http://jsonschema.net/cost_change_event_fall",
+      "type": "integer"
+    },
+    "in_dreamteam": {
+      "id": "http://jsonschema.net/in_dreamteam",
+      "type": "boolean"
+    },
+    "dreamteam_count": {
+      "id": "http://jsonschema.net/dreamteam_count",
+      "type": "integer"
+    },
+    "selected_by_percent": {
+      "id": "http://jsonschema.net/selected_by_percent",
+      "type": "string"
+    },
+    "form": {
+      "id": "http://jsonschema.net/form",
+      "type": "string"
+    },
+    "transfers_out": {
+      "id": "http://jsonschema.net/transfers_out",
+      "type": "integer"
+    },
+    "transfers_in": {
+      "id": "http://jsonschema.net/transfers_in",
+      "type": "integer"
+    },
+    "transfers_out_event": {
+      "id": "http://jsonschema.net/transfers_out_event",
+      "type": "integer"
+    },
+    "transfers_in_event": {
+      "id": "http://jsonschema.net/transfers_in_event",
+      "type": "integer"
+    },
+    "loans_in": {
+      "id": "http://jsonschema.net/loans_in",
+      "type": "integer"
+    },
+    "loans_out": {
+      "id": "http://jsonschema.net/loans_out",
+      "type": "integer"
+    },
+    "loaned_in": {
+      "id": "http://jsonschema.net/loaned_in",
+      "type": "integer"
+    },
+    "loaned_out": {
+      "id": "http://jsonschema.net/loaned_out",
+      "type": "integer"
+    },
+    "event_points": {
+      "id": "http://jsonschema.net/event_points",
+      "type": "integer"
+    },
+    "points_per_game": {
+      "id": "http://jsonschema.net/points_per_game",
+      "type": "string"
+    },
+    "ep_this": {
+      "id": "http://jsonschema.net/ep_this",
+      "type": "null"
+    },
+    "ep_next": {
+      "id": "http://jsonschema.net/ep_next",
+      "type": "string"
+    },
+    "special": {
+      "id": "http://jsonschema.net/special",
+      "type": "boolean"
+    },
+    "minutes": {
+      "id": "http://jsonschema.net/minutes",
+      "type": "integer"
+    },
+    "goals_scored": {
+      "id": "http://jsonschema.net/goals_scored",
+      "type": "integer"
+    },
+    "assists": {
+      "id": "http://jsonschema.net/assists",
+      "type": "integer"
+    },
+    "clean_sheets": {
+      "id": "http://jsonschema.net/clean_sheets",
+      "type": "integer"
+    },
+    "goals_conceded": {
+      "id": "http://jsonschema.net/goals_conceded",
+      "type": "integer"
+    },
+    "own_goals": {
+      "id": "http://jsonschema.net/own_goals",
+      "type": "integer"
+    },
+    "penalties_saved": {
+      "id": "http://jsonschema.net/penalties_saved",
+      "type": "integer"
+    },
+    "penalties_missed": {
+      "id": "http://jsonschema.net/penalties_missed",
+      "type": "integer"
+    },
+    "yellow_cards": {
+      "id": "http://jsonschema.net/yellow_cards",
+      "type": "integer"
+    },
+    "red_cards": {
+      "id": "http://jsonschema.net/red_cards",
+      "type": "integer"
+    },
+    "saves": {
+      "id": "http://jsonschema.net/saves",
+      "type": "integer"
+    },
+    "bonus": {
+      "id": "http://jsonschema.net/bonus",
+      "type": "integer"
+    },
+    "ea_index": {
+      "id": "http://jsonschema.net/ea_index",
+      "type": "integer"
+    },
+    "bps": {
+      "id": "http://jsonschema.net/bps",
+      "type": "integer"
+    },
+    "element_type": {
+      "id": "http://jsonschema.net/element_type",
+      "type": "integer"
+    },
+    "team": {
+      "id": "http://jsonschema.net/team",
+      "type": "integer"
+    }
+  }
+}

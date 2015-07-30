@@ -9,22 +9,23 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>4.0.6.RELEASE</version>
+			<version>4.1.7.RELEASE</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.4.1.3</version>
+			<version>2.6.0</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
 
 		<!-- Internal dependencies -->
 
-		<dependency>
-			<groupId>net.blackcat.fantasy.draft</groupId>
-			<artifactId>fantasy-draft-model</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 		<dependency>
 			<groupId>net.blackcat.fantasy.draft</groupId>
 			<artifactId>fantasy-draft-integration</artifactId>
@@ -65,4 +66,41 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jsonschema2pojo</groupId>
+				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
+				<version>0.4.13</version>
+				<configuration>
+					<!-- see http://joelittlejohn.github.io/jsonschema2pojo/site/0.4.5/generate-mojo.html -->
+					<sourceDirectory>src/main/resources/schema/fantasyPremierLeaguePlayer.schema</sourceDirectory>
+					<targetPackage>net.blackcat.fantasy.draft.fpl.integration.api</targetPackage>
+					<useJodaDates>true</useJodaDates>
+					<addCompileSourceRoot>true</addCompileSourceRoot>
+					<removeOldOutput>true</removeOldOutput>
+					<outputEncoding>UTF-8</outputEncoding>
+					<outputDirectory>${project.build.directory}/generated-sources/jackson</outputDirectory>
+					<sourceType>jsonschema</sourceType>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
