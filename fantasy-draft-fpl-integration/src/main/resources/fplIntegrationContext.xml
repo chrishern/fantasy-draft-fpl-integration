@@ -17,4 +17,7 @@
 		<property name="errorHandler" ref="restClientErrorHandler" />
 	</bean>
 
+	<import resource="repositoryContext.xml" />
+    <import resource="beanContext.xml" />
+
 </beans>
