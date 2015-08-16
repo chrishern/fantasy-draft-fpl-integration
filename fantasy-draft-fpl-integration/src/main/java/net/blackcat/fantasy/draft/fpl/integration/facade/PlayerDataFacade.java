@@ -3,16 +3,20 @@
  */
 package net.blackcat.fantasy.draft.fpl.integration.facade;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.blackcat.fantasy.draft.fpl.integration.api.FantasyPremierLeaguePlayer;
 import net.blackcat.fantasy.draft.fpl.integration.client.PlayerDataClient;
 import net.blackcat.fantasy.draft.fpl.integration.exception.FantasyPremierLeagueException;
+import net.blackcat.fantasy.draft.fpl.integration.helper.FantasyPremierLeaguePlayerHelper;
+import net.blackcat.fantasy.draft.integration.exception.FantasyDraftIntegrationException;
+import net.blackcat.fantasy.draft.integration.facade.GameweekFacade;
 import net.blackcat.fantasy.draft.integration.facade.PlayerFacade;
 import net.blackcat.fantasy.draft.integration.facade.dto.PlayerDto;
-import net.blackcat.fantasy.draft.integration.model.types.player.Position;
+import net.blackcat.fantasy.draft.integration.facade.dto.PlayerGameweekScoreDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,16 +31,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class PlayerDataFacade {
 
-    private final static int UPPER_PLAYER_NUMBER_LIMIT = 3000;
+	private final static int UPPER_PLAYER_NUMBER_LIMIT = 3000;
 
     private PlayerDataClient playerDataClient;
     private PlayerFacade playerIntegrationFacade;
+    private GameweekFacade gameweekFacade;
 
     @Autowired
-    public PlayerDataFacade(final PlayerDataClient playerDataClient, final PlayerFacade playerIntegrationFacade) {
+    public PlayerDataFacade(final PlayerDataClient playerDataClient, final PlayerFacade playerIntegrationFacade, final GameweekFacade gameweekFacade) {
 
         this.playerDataClient = playerDataClient;
         this.playerIntegrationFacade = playerIntegrationFacade;
+        this.gameweekFacade = gameweekFacade;
     }
 
     /**
@@ -52,13 +58,60 @@ public class PlayerDataFacade {
         }
 
     }
-
+    
     /**
-     * Build up a list of {@link PlayerDto} objects from FPL using the REST client
+     * Calculate the gameweek scores for the current gameweek.
      * 
-     * @param draftPlayers
-     *            List to add the {@link PlayerDto} objects to.
-     * @return True if any data has been successfully read from the endpoint, false otherwise.
+     * @throws FantasyDraftIntegrationException
+     */
+	public void calculateCurrentGameweekScores() throws FantasyDraftIntegrationException {
+    	
+    	System.out.println("Start calculating gameweek scores");
+    	
+    	final Map<Integer, PlayerGameweekScoreDto> playerGameweekScores = new HashMap<Integer, PlayerGameweekScoreDto>();
+    	
+    	for (final PlayerDto player : playerIntegrationFacade.getPlayers()) {
+
+    		final FantasyPremierLeaguePlayer fantasyPremierLeaguePlayer = playerDataClient.getPlayer(player.getId());
+    		final PlayerGameweekScoreDto playerGamweekScore = FantasyPremierLeaguePlayerHelper.buildPlayerGameweekScoreDtoForCurrentGameweek(fantasyPremierLeaguePlayer);
+    		playerGameweekScores.put(player.getId(), playerGamweekScore);
+    	}
+    	
+    	System.out.println("Read all player data from FPL");
+    	
+    	gameweekFacade.calculateGameweekScores(playerGameweekScores);
+    	
+    	System.out.println("Finished calculating gameweek scores");
+    }
+	
+	/**
+     * Calculate the gameweek scores for a specific gameweek.
+     * 
+     * @param gameweek The number of the gameweek to calculate the scores for.
+     * @throws FantasyDraftIntegrationException
+     */
+	public void calculateGameweekScores(final int gameweek) throws FantasyDraftIntegrationException {
+    	
+    	System.out.println("Start calculating gameweek scores for gameweek " + gameweek);
+    	
+    	final Map<Integer, PlayerGameweekScoreDto> playerGameweekScores = new HashMap<Integer, PlayerGameweekScoreDto>();
+    	
+    	for (final PlayerDto player : playerIntegrationFacade.getPlayers()) {
+
+    		final FantasyPremierLeaguePlayer fantasyPremierLeaguePlayer = playerDataClient.getPlayer(player.getId());
+    		final PlayerGameweekScoreDto playerGamweekScore = FantasyPremierLeaguePlayerHelper.buildPlayerGameweekScoreDtoForGameweek(fantasyPremierLeaguePlayer, gameweek);
+    		playerGameweekScores.put(player.getId(), playerGamweekScore);
+    	}
+    	
+    	System.out.println("Read all player data from FPL");
+    	
+    	gameweekFacade.calculateGameweekScores(playerGameweekScores);
+    	
+    	System.out.println("Finished calculating gameweek scores");
+    }
+
+    /*
+     * Build up a list of PlayerDto objects from FPL using the REST client
      */
     private boolean buildPlayerListFromRestClient(final List<PlayerDto> draftPlayers) {
         boolean atLeastOneSuccessfulRead = false;
@@ -67,7 +120,7 @@ public class PlayerDataFacade {
             try {
                 final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(i);
 
-                draftPlayers.add(convertFantasyPremierLeaguePlayer(fplPlayer));
+                draftPlayers.add(FantasyPremierLeaguePlayerHelper.convertFantasyPremierLeaguePlayer(fplPlayer));
                 atLeastOneSuccessfulRead = true;
             } catch (final FantasyPremierLeagueException e) {
                 handleRestClientException(atLeastOneSuccessfulRead, e);
@@ -75,35 +128,6 @@ public class PlayerDataFacade {
             }
         }
         return atLeastOneSuccessfulRead;
-    }
-
-    private PlayerDto convertFantasyPremierLeaguePlayer(final FantasyPremierLeaguePlayer fplPlayer) {
-
-        final PlayerDto dto = new PlayerDto(fplPlayer.getId());
-
-        dto.setForename(fplPlayer.getFirstName());
-        dto.setSurname(fplPlayer.getSecondName());
-        dto.setTeam(fplPlayer.getTeamName());
-        dto.setPosition(Position.fromFantasyPremierLeaguePosition(fplPlayer.getTypeName()));
-        dto.setTotalPoints(fplPlayer.getTotalPoints());
-        dto.setCurrentPrice(calculateCostNow(fplPlayer.getNowCost()));
-        dto.setGoals(fplPlayer.getGoalsScored());
-        dto.setAssists(fplPlayer.getAssists());
-        dto.setCleanSheets(fplPlayer.getCleanSheets());
-        dto.setPointsPerGame(new BigDecimal(fplPlayer.getPointsPerGame()));
-
-        return dto;
-    }
-
-    /**
-     * Calculate the current cost of this player.
-     * 
-     * @return Current cost of this player
-     */
-    private BigDecimal calculateCostNow(final int nowCost) {
-        final BigDecimal costNow = new BigDecimal(nowCost);
-
-        return costNow.multiply(new BigDecimal("0.1"));
     }
 
     /**
