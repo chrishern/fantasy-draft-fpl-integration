@@ -105,7 +105,7 @@ public class PlayerDataFacade {
     	
     	System.out.println("Read all player data from FPL");
     	
-    	gameweekFacade.calculateGameweekScores(playerGameweekScores);
+    	gameweekFacade.calculateGameweekScores(playerGameweekScores, gameweek);
     	
     	System.out.println("Finished calculating gameweek scores");
     }
