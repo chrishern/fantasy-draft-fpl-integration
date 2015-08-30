@@ -60,6 +60,24 @@ public class PlayerDataFacade {
     }
     
     /**
+     * Update the player statistics of the currently stored players in the game.
+     * @throws FantasyDraftIntegrationException 
+     */
+    public void updateExistingPlayerStatistics() throws FantasyDraftIntegrationException {
+    	
+    	final List<PlayerDto> playerDtos = new ArrayList<PlayerDto>();
+    	
+    	for (final PlayerDto currentPlayer : playerIntegrationFacade.getPlayers()) {
+    		
+    		final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(currentPlayer.getId());
+    		final PlayerDto playerDto = FantasyPremierLeaguePlayerHelper.convertFantasyPremierLeaguePlayer(fplPlayer);
+    		playerDtos.add(playerDto);
+    	}
+    	
+    	playerIntegrationFacade.updatePlayersStatistics(playerDtos);
+    }
+    
+    /**
      * Calculate the gameweek scores for the current gameweek.
      * 
      * @throws FantasyDraftIntegrationException
