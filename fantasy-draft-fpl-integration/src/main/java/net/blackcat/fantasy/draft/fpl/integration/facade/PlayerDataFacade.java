@@ -15,6 +15,7 @@ import net.blackcat.fantasy.draft.fpl.integration.helper.FantasyPremierLeaguePla
 import net.blackcat.fantasy.draft.integration.exception.FantasyDraftIntegrationException;
 import net.blackcat.fantasy.draft.integration.facade.GameweekFacade;
 import net.blackcat.fantasy.draft.integration.facade.PlayerFacade;
+import net.blackcat.fantasy.draft.integration.facade.TeamFacade;
 import net.blackcat.fantasy.draft.integration.facade.dto.PlayerDto;
 import net.blackcat.fantasy.draft.integration.facade.dto.PlayerGameweekScoreDto;
 
@@ -36,13 +37,16 @@ public class PlayerDataFacade {
     private PlayerDataClient playerDataClient;
     private PlayerFacade playerIntegrationFacade;
     private GameweekFacade gameweekFacade;
+    private TeamFacade teamIntegrationFacade;
 
     @Autowired
-    public PlayerDataFacade(final PlayerDataClient playerDataClient, final PlayerFacade playerIntegrationFacade, final GameweekFacade gameweekFacade) {
+    public PlayerDataFacade(final PlayerDataClient playerDataClient, final PlayerFacade playerIntegrationFacade, 
+    		final GameweekFacade gameweekFacade, final TeamFacade teamIntegrationFacade) {
 
         this.playerDataClient = playerDataClient;
         this.playerIntegrationFacade = playerIntegrationFacade;
         this.gameweekFacade = gameweekFacade;
+        this.teamIntegrationFacade = teamIntegrationFacade;
     }
 
     /**
@@ -77,6 +81,25 @@ public class PlayerDataFacade {
     	playerIntegrationFacade.updatePlayersStatistics(playerDtos);
     }
     
+    /**
+     * Update the player price data of players in the game.
+     * @throws FantasyDraftIntegrationException 
+     */
+    public void updateExistingPlayerPriceData() throws FantasyDraftIntegrationException {
+    	
+    	final Map<Integer, PlayerDto> playerDtoMap = new HashMap<Integer, PlayerDto>();
+    	
+    	for (final PlayerDto currentPlayer : playerIntegrationFacade.getPlayers()) {
+    		
+    		final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(currentPlayer.getId());
+    		final PlayerDto playerDto = FantasyPremierLeaguePlayerHelper.convertFantasyPremierLeaguePlayer(fplPlayer);
+    		playerDtoMap.put(playerDto.getId(), playerDto);
+    	}
+    	
+    	playerIntegrationFacade.updatePlayersCurrentPrice(playerDtoMap);
+    	teamIntegrationFacade.updateSelectedPlayersSellToPotPrice(playerDtoMap);
+    }
+
     /**
      * Calculate the gameweek scores for the current gameweek.
      * 
@@ -128,7 +151,7 @@ public class PlayerDataFacade {
     	System.out.println("Finished calculating gameweek scores");
     }
 
-    /*
+	/*
      * Build up a list of PlayerDto objects from FPL using the REST client
      */
     private boolean buildPlayerListFromRestClient(final List<PlayerDto> draftPlayers) {
