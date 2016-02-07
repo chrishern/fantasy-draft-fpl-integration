@@ -157,7 +157,7 @@ public class PlayerDataFacade {
     private boolean buildPlayerListFromRestClient(final List<PlayerDto> draftPlayers) {
         boolean atLeastOneSuccessfulRead = false;
 
-        for (int i = 1; i <= UPPER_PLAYER_NUMBER_LIMIT; i++) {
+        for (int i = 631; i <= UPPER_PLAYER_NUMBER_LIMIT; i++) {
             try {
                 final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(i);
 
