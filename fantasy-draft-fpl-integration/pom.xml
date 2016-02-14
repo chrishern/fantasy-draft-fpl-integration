@@ -7,6 +7,25 @@
 	<properties>
 		<fpl.integration.version>0.0.1</fpl.integration.version>
 	</properties>
+	
+	<scm>
+		<developerConnection>scm:git:git@github.com:chrishern/fantasy-draft-fpl-integration.git</developerConnection>
+		<connection>scm:git:git@github.com:chrishern/fantasy-draft-fpl-integration.git</connection>
+		<url>git@github.com:chrishern/fantasy-draft-fpl-integration.git</url>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Releases</name>
+			<url>http://192.168.0.13:8081/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Snapshots</name>
+			<url>http://192.168.0.13:8081/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<dependencies>
 
@@ -111,6 +130,18 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>1.0-m5.1</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<pushReleases>true</pushReleases>
+					<noDeploy>true</noDeploy>
+					<pullMaster>true</pullMaster>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
