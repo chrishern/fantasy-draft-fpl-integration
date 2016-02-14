@@ -3,6 +3,10 @@
 	<groupId>net.blackcat.fantasy.draft</groupId>
 	<artifactId>fantasy-draft-fpl-integration</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	<properties>
+		<fpl.integration.version>0.0.1</fpl.integration.version>
+	</properties>
 
 	<dependencies>
 
@@ -29,7 +33,7 @@
 		<dependency>
 			<groupId>net.blackcat.fantasy.draft</groupId>
 			<artifactId>fantasy-draft-integration</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${fpl.integration.version}</version>
 		</dependency>
 
 		<!-- Test dependencies -->
@@ -38,7 +42,7 @@
 			<groupId>net.blackcat.fantasy.draft</groupId>
 			<artifactId>fantasy-draft-integration</artifactId>
 			<type>test-jar</type>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${fpl.integration.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
