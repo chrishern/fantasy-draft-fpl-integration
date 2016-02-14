@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.blackcat.fantasy.draft</groupId>
 	<artifactId>fantasy-draft-fpl-integration</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.1</version>
 	
 	<properties>
 		<fpl.integration.version>0.0.1</fpl.integration.version>
