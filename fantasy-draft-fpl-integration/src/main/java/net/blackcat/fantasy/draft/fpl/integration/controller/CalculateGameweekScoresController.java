@@ -40,6 +40,6 @@ public class CalculateGameweekScoresController {
 	}
 	
 	private void performInitialLoad() throws FantasyDraftIntegrationException {
-		playerDataFacade.calculateCurrentGameweekScores();
+//		playerDataFacade.calculateCurrentGameweekScores();
 	}
 }

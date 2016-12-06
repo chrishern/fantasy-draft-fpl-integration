@@ -1,0 +1,911 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "history_past": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "season_name": {
+            "type": "string"
+          },
+          "element_code": {
+            "type": "integer"
+          },
+          "start_cost": {
+            "type": "integer"
+          },
+          "end_cost": {
+            "type": "integer"
+          },
+          "total_points": {
+            "type": "integer"
+          },
+          "minutes": {
+            "type": "integer"
+          },
+          "goals_scored": {
+            "type": "integer"
+          },
+          "assists": {
+            "type": "integer"
+          },
+          "clean_sheets": {
+            "type": "integer"
+          },
+          "goals_conceded": {
+            "type": "integer"
+          },
+          "own_goals": {
+            "type": "integer"
+          },
+          "penalties_saved": {
+            "type": "integer"
+          },
+          "penalties_missed": {
+            "type": "integer"
+          },
+          "yellow_cards": {
+            "type": "integer"
+          },
+          "red_cards": {
+            "type": "integer"
+          },
+          "saves": {
+            "type": "integer"
+          },
+          "bonus": {
+            "type": "integer"
+          },
+          "bps": {
+            "type": "integer"
+          },
+          "influence": {
+            "type": "string"
+          },
+          "creativity": {
+            "type": "string"
+          },
+          "threat": {
+            "type": "string"
+          },
+          "ict_index": {
+            "type": "string"
+          },
+          "ea_index": {
+            "type": "integer"
+          },
+          "season": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "season_name",
+          "element_code",
+          "start_cost",
+          "end_cost",
+          "total_points",
+          "minutes",
+          "goals_scored",
+          "assists",
+          "clean_sheets",
+          "goals_conceded",
+          "own_goals",
+          "penalties_saved",
+          "penalties_missed",
+          "yellow_cards",
+          "red_cards",
+          "saves",
+          "bonus",
+          "bps",
+          "influence",
+          "creativity",
+          "threat",
+          "ict_index",
+          "ea_index",
+          "season"
+        ]
+      }
+    },
+    "fixtures_summary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "kickoff_time_formatted": {
+            "type": "string"
+          },
+          "event_name": {
+            "type": "string"
+          },
+          "opponent_name": {
+            "type": "string"
+          },
+          "opponent_short_name": {
+            "type": "string"
+          },
+          "is_home": {
+            "type": "boolean"
+          },
+          "difficulty": {
+            "type": "integer"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "kickoff_time": {
+            "type": "string"
+          },
+          "team_h_score": {
+            "type": "null"
+          },
+          "team_a_score": {
+            "type": "null"
+          },
+          "finished": {
+            "type": "boolean"
+          },
+          "minutes": {
+            "type": "integer"
+          },
+          "provisional_start_time": {
+            "type": "boolean"
+          },
+          "finished_provisional": {
+            "type": "boolean"
+          },
+          "event": {
+            "type": "integer"
+          },
+          "team_a": {
+            "type": "integer"
+          },
+          "team_h": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "kickoff_time_formatted",
+          "event_name",
+          "opponent_name",
+          "opponent_short_name",
+          "is_home",
+          "difficulty",
+          "code",
+          "kickoff_time",
+          "team_h_score",
+          "team_a_score",
+          "finished",
+          "minutes",
+          "provisional_start_time",
+          "finished_provisional",
+          "event",
+          "team_a",
+          "team_h"
+        ]
+      }
+    },
+    "explain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "explain": {
+            "type": "object",
+            "properties": {
+              "minutes": {
+                "type": "object",
+                "properties": {
+                  "points": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "points",
+                  "name",
+                  "value"
+                ]
+              }
+            },
+            "required": [
+              "minutes"
+            ]
+          },
+          "fixture": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "kickoff_time_formatted": {
+                "type": "string"
+              },
+              "started": {
+                "type": "boolean"
+              },
+              "event_day": {
+                "type": "integer"
+              },
+              "deadline_time": {
+                "type": "string"
+              },
+              "deadline_time_formatted": {
+                "type": "string"
+              },
+              "stats": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "bps": {
+                      "type": "object",
+                      "properties": {
+                        "a": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "integer"
+                              },
+                              "element": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "value",
+                              "element"
+                            ]
+                          }
+                        },
+                        "h": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "type": "integer"
+                              },
+                              "element": {
+                                "type": "integer"
+                              }
+                            },
+                            "required": [
+                              "value",
+                              "element"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "a",
+                        "h"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "bps"
+                  ]
+                }
+              },
+              "code": {
+                "type": "integer"
+              },
+              "kickoff_time": {
+                "type": "string"
+              },
+              "team_h_score": {
+                "type": "integer"
+              },
+              "team_a_score": {
+                "type": "integer"
+              },
+              "finished": {
+                "type": "boolean"
+              },
+              "minutes": {
+                "type": "integer"
+              },
+              "provisional_start_time": {
+                "type": "boolean"
+              },
+              "finished_provisional": {
+                "type": "boolean"
+              },
+              "event": {
+                "type": "integer"
+              },
+              "team_a": {
+                "type": "integer"
+              },
+              "team_h": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "id",
+              "kickoff_time_formatted",
+              "started",
+              "event_day",
+              "deadline_time",
+              "deadline_time_formatted",
+              "stats",
+              "code",
+              "kickoff_time",
+              "team_h_score",
+              "team_a_score",
+              "finished",
+              "minutes",
+              "provisional_start_time",
+              "finished_provisional",
+              "event",
+              "team_a",
+              "team_h"
+            ]
+          }
+        },
+        "required": [
+          "explain",
+          "fixture"
+        ]
+      }
+    },
+    "history_summary": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "kickoff_time": {
+            "type": "string"
+          },
+          "kickoff_time_formatted": {
+            "type": "string"
+          },
+          "team_h_score": {
+            "type": "integer"
+          },
+          "team_a_score": {
+            "type": "integer"
+          },
+          "was_home": {
+            "type": "boolean"
+          },
+          "round": {
+            "type": "integer"
+          },
+          "total_points": {
+            "type": "integer"
+          },
+          "value": {
+            "type": "integer"
+          },
+          "transfers_balance": {
+            "type": "integer"
+          },
+          "selected": {
+            "type": "integer"
+          },
+          "transfers_in": {
+            "type": "integer"
+          },
+          "transfers_out": {
+            "type": "integer"
+          },
+          "loaned_in": {
+            "type": "integer"
+          },
+          "loaned_out": {
+            "type": "integer"
+          },
+          "minutes": {
+            "type": "integer"
+          },
+          "goals_scored": {
+            "type": "integer"
+          },
+          "assists": {
+            "type": "integer"
+          },
+          "clean_sheets": {
+            "type": "integer"
+          },
+          "goals_conceded": {
+            "type": "integer"
+          },
+          "own_goals": {
+            "type": "integer"
+          },
+          "penalties_saved": {
+            "type": "integer"
+          },
+          "penalties_missed": {
+            "type": "integer"
+          },
+          "yellow_cards": {
+            "type": "integer"
+          },
+          "red_cards": {
+            "type": "integer"
+          },
+          "saves": {
+            "type": "integer"
+          },
+          "bonus": {
+            "type": "integer"
+          },
+          "bps": {
+            "type": "integer"
+          },
+          "influence": {
+            "type": "string"
+          },
+          "creativity": {
+            "type": "string"
+          },
+          "threat": {
+            "type": "string"
+          },
+          "ict_index": {
+            "type": "string"
+          },
+          "ea_index": {
+            "type": "integer"
+          },
+          "open_play_crosses": {
+            "type": "integer"
+          },
+          "big_chances_created": {
+            "type": "integer"
+          },
+          "clearances_blocks_interceptions": {
+            "type": "integer"
+          },
+          "recoveries": {
+            "type": "integer"
+          },
+          "key_passes": {
+            "type": "integer"
+          },
+          "tackles": {
+            "type": "integer"
+          },
+          "winning_goals": {
+            "type": "integer"
+          },
+          "attempted_passes": {
+            "type": "integer"
+          },
+          "completed_passes": {
+            "type": "integer"
+          },
+          "penalties_conceded": {
+            "type": "integer"
+          },
+          "big_chances_missed": {
+            "type": "integer"
+          },
+          "errors_leading_to_goal": {
+            "type": "integer"
+          },
+          "errors_leading_to_goal_attempt": {
+            "type": "integer"
+          },
+          "tackled": {
+            "type": "integer"
+          },
+          "offside": {
+            "type": "integer"
+          },
+          "target_missed": {
+            "type": "integer"
+          },
+          "fouls": {
+            "type": "integer"
+          },
+          "dribbles": {
+            "type": "integer"
+          },
+          "element": {
+            "type": "integer"
+          },
+          "fixture": {
+            "type": "integer"
+          },
+          "opponent_team": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "kickoff_time",
+          "kickoff_time_formatted",
+          "team_h_score",
+          "team_a_score",
+          "was_home",
+          "round",
+          "total_points",
+          "value",
+          "transfers_balance",
+          "selected",
+          "transfers_in",
+          "transfers_out",
+          "loaned_in",
+          "loaned_out",
+          "minutes",
+          "goals_scored",
+          "assists",
+          "clean_sheets",
+          "goals_conceded",
+          "own_goals",
+          "penalties_saved",
+          "penalties_missed",
+          "yellow_cards",
+          "red_cards",
+          "saves",
+          "bonus",
+          "bps",
+          "influence",
+          "creativity",
+          "threat",
+          "ict_index",
+          "ea_index",
+          "open_play_crosses",
+          "big_chances_created",
+          "clearances_blocks_interceptions",
+          "recoveries",
+          "key_passes",
+          "tackles",
+          "winning_goals",
+          "attempted_passes",
+          "completed_passes",
+          "penalties_conceded",
+          "big_chances_missed",
+          "errors_leading_to_goal",
+          "errors_leading_to_goal_attempt",
+          "tackled",
+          "offside",
+          "target_missed",
+          "fouls",
+          "dribbles",
+          "element",
+          "fixture",
+          "opponent_team"
+        ]
+      }
+    },
+    "fixtures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "kickoff_time_formatted": {
+            "type": "string"
+          },
+          "event_name": {
+            "type": "string"
+          },
+          "opponent_name": {
+            "type": "string"
+          },
+          "opponent_short_name": {
+            "type": "string"
+          },
+          "is_home": {
+            "type": "boolean"
+          },
+          "difficulty": {
+            "type": "integer"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "kickoff_time": {
+            "type": "string"
+          },
+          "team_h_score": {
+            "type": "null"
+          },
+          "team_a_score": {
+            "type": "null"
+          },
+          "finished": {
+            "type": "boolean"
+          },
+          "minutes": {
+            "type": "integer"
+          },
+          "provisional_start_time": {
+            "type": "boolean"
+          },
+          "finished_provisional": {
+            "type": "boolean"
+          },
+          "event": {
+            "type": "integer"
+          },
+          "team_a": {
+            "type": "integer"
+          },
+          "team_h": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "kickoff_time_formatted",
+          "event_name",
+          "opponent_name",
+          "opponent_short_name",
+          "is_home",
+          "difficulty",
+          "code",
+          "kickoff_time",
+          "team_h_score",
+          "team_a_score",
+          "finished",
+          "minutes",
+          "provisional_start_time",
+          "finished_provisional",
+          "event",
+          "team_a",
+          "team_h"
+        ]
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "kickoff_time": {
+            "type": "string"
+          },
+          "kickoff_time_formatted": {
+            "type": "string"
+          },
+          "team_h_score": {
+            "type": "integer"
+          },
+          "team_a_score": {
+            "type": "integer"
+          },
+          "was_home": {
+            "type": "boolean"
+          },
+          "round": {
+            "type": "integer"
+          },
+          "total_points": {
+            "type": "integer"
+          },
+          "value": {
+            "type": "integer"
+          },
+          "transfers_balance": {
+            "type": "integer"
+          },
+          "selected": {
+            "type": "integer"
+          },
+          "transfers_in": {
+            "type": "integer"
+          },
+          "transfers_out": {
+            "type": "integer"
+          },
+          "loaned_in": {
+            "type": "integer"
+          },
+          "loaned_out": {
+            "type": "integer"
+          },
+          "minutes": {
+            "type": "integer"
+          },
+          "goals_scored": {
+            "type": "integer"
+          },
+          "assists": {
+            "type": "integer"
+          },
+          "clean_sheets": {
+            "type": "integer"
+          },
+          "goals_conceded": {
+            "type": "integer"
+          },
+          "own_goals": {
+            "type": "integer"
+          },
+          "penalties_saved": {
+            "type": "integer"
+          },
+          "penalties_missed": {
+            "type": "integer"
+          },
+          "yellow_cards": {
+            "type": "integer"
+          },
+          "red_cards": {
+            "type": "integer"
+          },
+          "saves": {
+            "type": "integer"
+          },
+          "bonus": {
+            "type": "integer"
+          },
+          "bps": {
+            "type": "integer"
+          },
+          "influence": {
+            "type": "string"
+          },
+          "creativity": {
+            "type": "string"
+          },
+          "threat": {
+            "type": "string"
+          },
+          "ict_index": {
+            "type": "string"
+          },
+          "ea_index": {
+            "type": "integer"
+          },
+          "open_play_crosses": {
+            "type": "integer"
+          },
+          "big_chances_created": {
+            "type": "integer"
+          },
+          "clearances_blocks_interceptions": {
+            "type": "integer"
+          },
+          "recoveries": {
+            "type": "integer"
+          },
+          "key_passes": {
+            "type": "integer"
+          },
+          "tackles": {
+            "type": "integer"
+          },
+          "winning_goals": {
+            "type": "integer"
+          },
+          "attempted_passes": {
+            "type": "integer"
+          },
+          "completed_passes": {
+            "type": "integer"
+          },
+          "penalties_conceded": {
+            "type": "integer"
+          },
+          "big_chances_missed": {
+            "type": "integer"
+          },
+          "errors_leading_to_goal": {
+            "type": "integer"
+          },
+          "errors_leading_to_goal_attempt": {
+            "type": "integer"
+          },
+          "tackled": {
+            "type": "integer"
+          },
+          "offside": {
+            "type": "integer"
+          },
+          "target_missed": {
+            "type": "integer"
+          },
+          "fouls": {
+            "type": "integer"
+          },
+          "dribbles": {
+            "type": "integer"
+          },
+          "element": {
+            "type": "integer"
+          },
+          "fixture": {
+            "type": "integer"
+          },
+          "opponent_team": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "kickoff_time",
+          "kickoff_time_formatted",
+          "team_h_score",
+          "team_a_score",
+          "was_home",
+          "round",
+          "total_points",
+          "value",
+          "transfers_balance",
+          "selected",
+          "transfers_in",
+          "transfers_out",
+          "loaned_in",
+          "loaned_out",
+          "minutes",
+          "goals_scored",
+          "assists",
+          "clean_sheets",
+          "goals_conceded",
+          "own_goals",
+          "penalties_saved",
+          "penalties_missed",
+          "yellow_cards",
+          "red_cards",
+          "saves",
+          "bonus",
+          "bps",
+          "influence",
+          "creativity",
+          "threat",
+          "ict_index",
+          "ea_index",
+          "open_play_crosses",
+          "big_chances_created",
+          "clearances_blocks_interceptions",
+          "recoveries",
+          "key_passes",
+          "tackles",
+          "winning_goals",
+          "attempted_passes",
+          "completed_passes",
+          "penalties_conceded",
+          "big_chances_missed",
+          "errors_leading_to_goal",
+          "errors_leading_to_goal_attempt",
+          "tackled",
+          "offside",
+          "target_missed",
+          "fouls",
+          "dribbles",
+          "element",
+          "fixture",
+          "opponent_team"
+        ]
+      }
+    }
+  },
+  "required": [
+    "history_past",
+    "fixtures_summary",
+    "explain",
+    "history_summary",
+    "fixtures",
+    "history"
+  ]
+}

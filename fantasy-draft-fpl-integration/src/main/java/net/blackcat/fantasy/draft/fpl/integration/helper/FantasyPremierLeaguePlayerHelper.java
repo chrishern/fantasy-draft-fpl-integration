@@ -4,8 +4,8 @@
 package net.blackcat.fantasy.draft.fpl.integration.helper;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.blackcat.fantasy.draft.fpl.integration.api.FantasyPremierLeaguePlayer;
 import net.blackcat.fantasy.draft.integration.facade.dto.PlayerDto;
@@ -23,6 +23,30 @@ import net.blackcat.fantasy.draft.integration.model.types.player.Position;
  */
 public final class FantasyPremierLeaguePlayerHelper {
 
+	public final static Map<Integer, String> TEAM_MAP = new HashMap<Integer, String>();
+	static {
+		TEAM_MAP.put(1, "Arsenal");
+		TEAM_MAP.put(2, "Bournemouth");
+		TEAM_MAP.put(3, "Burnley");
+		TEAM_MAP.put(4, "Chelsea");
+		TEAM_MAP.put(5, "Crystal Palace");
+		TEAM_MAP.put(6, "Everton");
+		TEAM_MAP.put(7, "Hull City");
+		TEAM_MAP.put(8, "Leicester City");
+		TEAM_MAP.put(9, "Liverpool");
+		TEAM_MAP.put(10, "Manchester City");
+		TEAM_MAP.put(11, "Manchester United");
+		TEAM_MAP.put(12, "Middlesbrough");
+		TEAM_MAP.put(13, "Southampton");
+		TEAM_MAP.put(14, "Stoke City");
+		TEAM_MAP.put(15, "Sunderland");
+		TEAM_MAP.put(16, "Swansea City");
+		TEAM_MAP.put(17, "Tottenham Hotspur");
+		TEAM_MAP.put(18, "Watford");
+		TEAM_MAP.put(19, "West Bromwich Albion");
+		TEAM_MAP.put(20, "West Ham United");
+	}
+	
 	/**
 	 * Build a {@link PlayerGameweekScoreDto} from a {@link FantasyPremierLeaguePlayer} for a specific gameweek.
 	 * 
@@ -37,20 +61,21 @@ public final class FantasyPremierLeaguePlayerHelper {
 		Integer minutesPlayed = 0;
 		Integer pointsScored = 0;
 		
-		for (final Object allGameweeks : fantasyPremierLeaguePlayer.getFixtureHistory().getAll()) {
-			final List<Object> gameweekData = (ArrayList<Object>) allGameweeks;
-			
-			final int gameweekNumber = (Integer) gameweekData.get(1);
-			
-			if (gameweekNumber == gameweek) {
-				minutesPlayed = (Integer) gameweekData.get(3);
-				pointsScored = (Integer) gameweekData.get(19);
-				break;
-			}
-		}
-		
-		final PlayerGameweekScoreDto playerGamweekScore = new PlayerGameweekScoreDto(fantasyPremierLeaguePlayer.getId(), minutesPlayed, pointsScored);
-		return playerGamweekScore;
+//		for (final Object allGameweeks : fantasyPremierLeaguePlayer.getFixtureHistory().getAll()) {
+//			final List<Object> gameweekData = (ArrayList<Object>) allGameweeks;
+//			
+//			final int gameweekNumber = (Integer) gameweekData.get(1);
+//			
+//			if (gameweekNumber == gameweek) {
+//				minutesPlayed = (Integer) gameweekData.get(3);
+//				pointsScored = (Integer) gameweekData.get(19);
+//				break;
+//			}
+//		}
+//		
+//		final PlayerGameweekScoreDto playerGamweekScore = new PlayerGameweekScoreDto(fantasyPremierLeaguePlayer.getId(), minutesPlayed, pointsScored);
+//		return playerGamweekScore;
+		return null;
 	}
 	
 	/**
@@ -62,21 +87,8 @@ public final class FantasyPremierLeaguePlayerHelper {
 	 */
 	@SuppressWarnings("unchecked")
 	public static PlayerGameweekScoreDto buildPlayerGameweekScoreDtoForCurrentGameweek(final FantasyPremierLeaguePlayer fantasyPremierLeaguePlayer) {
-
-		Integer minutesPlayed = 0;
-		
-		for (final Object event : fantasyPremierLeaguePlayer.getEventExplain()) {
-			final List<Object> eventExplainItems = (ArrayList<Object>) event;
-			
-			final String eventLabel = (String) eventExplainItems.get(0);
-			
-			if (eventLabel.equalsIgnoreCase("Minutes played")) {
-				minutesPlayed = (Integer) eventExplainItems.get(1);
-				break;
-			}
-		}
-		
-		final PlayerGameweekScoreDto playerGamweekScore = new PlayerGameweekScoreDto(fantasyPremierLeaguePlayer.getId(), minutesPlayed, fantasyPremierLeaguePlayer.getEventTotal());
+		final PlayerGameweekScoreDto playerGamweekScore = new PlayerGameweekScoreDto(
+				fantasyPremierLeaguePlayer.getId(), fantasyPremierLeaguePlayer.getMinutes(), fantasyPremierLeaguePlayer.getEventPoints());
 		return playerGamweekScore;
 	}
 	
@@ -92,8 +104,8 @@ public final class FantasyPremierLeaguePlayerHelper {
 
         dto.setForename(fplPlayer.getFirstName());
         dto.setSurname(fplPlayer.getSecondName());
-        dto.setTeam(fplPlayer.getTeamName());
-        dto.setPosition(Position.fromFantasyPremierLeaguePosition(fplPlayer.getTypeName()));
+        dto.setTeam(TEAM_MAP.get(fplPlayer.getTeam()));
+        dto.setPosition(Position.fromFantasyPremierLeaguePosition(fplPlayer.getElementType()));
         dto.setTotalPoints(fplPlayer.getTotalPoints());
         dto.setCurrentPrice(calculateCostNow(fplPlayer.getNowCost()));
         dto.setGoals(fplPlayer.getGoalsScored());

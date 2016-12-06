@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import net.blackcat.fantasy.draft.fpl.integration.api.FantasyPremierLeaguePlayer;
+import net.blackcat.fantasy.draft.fpl.integration.api.FantasyPremierLeaguePlayerDetail;
 import net.blackcat.fantasy.draft.fpl.integration.client.PlayerDataClient;
-import net.blackcat.fantasy.draft.fpl.integration.exception.FantasyPremierLeagueException;
 import net.blackcat.fantasy.draft.fpl.integration.helper.FantasyPremierLeaguePlayerHelper;
 import net.blackcat.fantasy.draft.integration.exception.FantasyDraftIntegrationException;
 import net.blackcat.fantasy.draft.integration.facade.GameweekFacade;
@@ -20,7 +20,6 @@ import net.blackcat.fantasy.draft.integration.facade.dto.PlayerDto;
 import net.blackcat.fantasy.draft.integration.facade.dto.PlayerGameweekScoreDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 /**
@@ -71,9 +70,7 @@ public class PlayerDataFacade {
     	
     	final List<PlayerDto> playerDtos = new ArrayList<PlayerDto>();
     	
-    	for (final PlayerDto currentPlayer : playerIntegrationFacade.getPlayers()) {
-    		
-    		final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(currentPlayer.getId());
+    	for (final FantasyPremierLeaguePlayer fplPlayer : playerDataClient.getPlayers()) {
     		final PlayerDto playerDto = FantasyPremierLeaguePlayerHelper.convertFantasyPremierLeaguePlayer(fplPlayer);
     		playerDtos.add(playerDto);
     	}
@@ -89,9 +86,8 @@ public class PlayerDataFacade {
     	
     	final Map<Integer, PlayerDto> playerDtoMap = new HashMap<Integer, PlayerDto>();
     	
-    	for (final PlayerDto currentPlayer : playerIntegrationFacade.getPlayers()) {
+    	for (final FantasyPremierLeaguePlayer fplPlayer : playerDataClient.getPlayers()) {
     		
-    		final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(currentPlayer.getId());
     		final PlayerDto playerDto = FantasyPremierLeaguePlayerHelper.convertFantasyPremierLeaguePlayer(fplPlayer);
     		playerDtoMap.put(playerDto.getId(), playerDto);
     	}
@@ -111,11 +107,19 @@ public class PlayerDataFacade {
     	
     	final Map<Integer, PlayerGameweekScoreDto> playerGameweekScores = new HashMap<Integer, PlayerGameweekScoreDto>();
     	
-    	for (final PlayerDto player : playerIntegrationFacade.getPlayers()) {
+    	for (final FantasyPremierLeaguePlayer fantasyPremierLeaguePlayer : playerDataClient.getPlayers()) {
 
-    		final FantasyPremierLeaguePlayer fantasyPremierLeaguePlayer = playerDataClient.getPlayer(player.getId());
     		final PlayerGameweekScoreDto playerGamweekScore = FantasyPremierLeaguePlayerHelper.buildPlayerGameweekScoreDtoForCurrentGameweek(fantasyPremierLeaguePlayer);
-    		playerGameweekScores.put(player.getId(), playerGamweekScore);
+    		final FantasyPremierLeaguePlayerDetail playerDetail = playerDataClient.getPlayer(fantasyPremierLeaguePlayer.getId());
+    		Integer minutesPlayed = 0;
+    		
+    		if (!playerDetail.getExplain().isEmpty()) {
+    			minutesPlayed = playerDetail.getExplain().get(0).getExplain().getMinutes().getValue();
+    		}
+			System.out.println("Minutes played: " + minutesPlayed);
+    		playerGamweekScore.setMinutesPlayed(minutesPlayed);
+    		
+    		playerGameweekScores.put(fantasyPremierLeaguePlayer.getId(), playerGamweekScore);
     	}
     	
     	System.out.println("Read all player data from FPL");
@@ -124,51 +128,64 @@ public class PlayerDataFacade {
     	
     	System.out.println("Finished calculating gameweek scores");
     }
-	
-	/**
-     * Calculate the gameweek scores for a specific gameweek.
-     * 
-     * @param gameweek The number of the gameweek to calculate the scores for.
-     * @throws FantasyDraftIntegrationException
-     */
-	public void calculateGameweekScores(final int gameweek) throws FantasyDraftIntegrationException {
-    	
-    	System.out.println("Start calculating gameweek scores for gameweek " + gameweek);
-    	
-    	final Map<Integer, PlayerGameweekScoreDto> playerGameweekScores = new HashMap<Integer, PlayerGameweekScoreDto>();
-    	
-    	for (final PlayerDto player : playerIntegrationFacade.getPlayers()) {
-
-    		final FantasyPremierLeaguePlayer fantasyPremierLeaguePlayer = playerDataClient.getPlayer(player.getId());
-    		final PlayerGameweekScoreDto playerGamweekScore = FantasyPremierLeaguePlayerHelper.buildPlayerGameweekScoreDtoForGameweek(fantasyPremierLeaguePlayer, gameweek);
-    		playerGameweekScores.put(player.getId(), playerGamweekScore);
-    	}
-    	
-    	System.out.println("Read all player data from FPL");
-    	
-    	gameweekFacade.calculateGameweekScores(playerGameweekScores, gameweek);
-    	
-    	System.out.println("Finished calculating gameweek scores");
-    }
+//	
+//	/**
+//     * Calculate the gameweek scores for a specific gameweek.
+//     * 
+//     * @param gameweek The number of the gameweek to calculate the scores for.
+//     * @throws FantasyDraftIntegrationException
+//     */
+//	public void calculateGameweekScores(final int gameweek) throws FantasyDraftIntegrationException {
+//    	
+//    	System.out.println("Start calculating gameweek scores for gameweek " + gameweek);
+//    	
+//    	final Map<Integer, PlayerGameweekScoreDto> playerGameweekScores = new HashMap<Integer, PlayerGameweekScoreDto>();
+//    	
+//    	for (final PlayerDto player : playerIntegrationFacade.getPlayers()) {
+//
+//    		final FantasyPremierLeaguePlayer fantasyPremierLeaguePlayer = playerDataClient.getPlayer(player.getId());
+//    		final PlayerGameweekScoreDto playerGamweekScore = FantasyPremierLeaguePlayerHelper.buildPlayerGameweekScoreDtoForGameweek(fantasyPremierLeaguePlayer, gameweek);
+//    		playerGameweekScores.put(player.getId(), playerGamweekScore);
+//    	}
+//    	
+//    	System.out.println("Read all player data from FPL");
+//    	
+//    	gameweekFacade.calculateGameweekScores(playerGameweekScores, gameweek);
+//    	
+//    	System.out.println("Finished calculating gameweek scores");
+//    }
 
 	/*
      * Build up a list of PlayerDto objects from FPL using the REST client
      */
     private boolean buildPlayerListFromRestClient(final List<PlayerDto> draftPlayers) {
         boolean atLeastOneSuccessfulRead = false;
-
-        for (int i = 631; i <= UPPER_PLAYER_NUMBER_LIMIT; i++) {
-            try {
-                final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(i);
-
-                draftPlayers.add(FantasyPremierLeaguePlayerHelper.convertFantasyPremierLeaguePlayer(fplPlayer));
-                atLeastOneSuccessfulRead = true;
-            } catch (final FantasyPremierLeagueException e) {
-                handleRestClientException(atLeastOneSuccessfulRead, e);
-                break;
-            }
+        
+        System.out.println("CALLING FPL");
+        
+        final List<FantasyPremierLeaguePlayer> fplPlayers = playerDataClient.getPlayers();
+        
+        System.out.println("FINISHED CALLING FPL");
+        
+        for (final FantasyPremierLeaguePlayer fplPlayer : fplPlayers) {
+        	System.out.println(fplPlayer.getSecondName());
+        	draftPlayers.add(FantasyPremierLeaguePlayerHelper.convertFantasyPremierLeaguePlayer(fplPlayer));
         }
-        return atLeastOneSuccessfulRead;
+        
+        return true;
+
+//        for (int i = 0; i <= UPPER_PLAYER_NUMBER_LIMIT; i++) {
+//            try {
+//                final FantasyPremierLeaguePlayer fplPlayer = playerDataClient.getPlayer(i);
+//
+//                draftPlayers.add(FantasyPremierLeaguePlayerHelper.convertFantasyPremierLeaguePlayer(fplPlayer));
+//                atLeastOneSuccessfulRead = true;
+//            } catch (final FantasyPremierLeagueException e) {
+//                handleRestClientException(atLeastOneSuccessfulRead, e);
+//                break;
+//            }
+//        }
+//        return atLeastOneSuccessfulRead;
     }
 
     /**
@@ -179,8 +196,8 @@ public class PlayerDataFacade {
      * @param exception
      *            The exception that was thrown.
      */
-    private void handleRestClientException(final boolean atLeastOneSuccessfulRead, final FantasyPremierLeagueException exception) {
-        if (endOfDataHasBeenReached(atLeastOneSuccessfulRead, exception)) {
+    private void handleRestClientException(final boolean atLeastOneSuccessfulRead) {
+        if (endOfDataHasBeenReached(atLeastOneSuccessfulRead)) {
             // Log out that we have reached the end of the data in FPL.
         } else {
             // Log out that there was an error connecting.
@@ -196,7 +213,7 @@ public class PlayerDataFacade {
      *            The exception that was thrown.
      * @return True if we have reached the end of the FPL data, false if the exception was thrown for another reason.
      */
-    private boolean endOfDataHasBeenReached(final boolean atLeastOneSuccessfulRead, final FantasyPremierLeagueException exception) {
-        return atLeastOneSuccessfulRead && HttpStatus.NOT_FOUND == exception.getStatusCode();
+    private boolean endOfDataHasBeenReached(final boolean atLeastOneSuccessfulRead) {
+        return atLeastOneSuccessfulRead;
     }
 }

@@ -5,7 +5,7 @@
 	<version>0.0.2-SNAPSHOT</version>
 	
 	<properties>
-		<fpl.integration.version>0.0.1</fpl.integration.version>
+		<fpl.integration.version>0.0.4-SNAPSHOT</fpl.integration.version>
 	</properties>
 	
 	<scm>
@@ -108,13 +108,13 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.jsonschema2pojo</groupId>
 				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
 				<version>0.4.13</version>
 				<configuration>
-					<!-- see http://joelittlejohn.github.io/jsonschema2pojo/site/0.4.5/generate-mojo.html -->
-					<sourceDirectory>src/main/resources/schema/fantasyPremierLeaguePlayer.schema</sourceDirectory>
+					see http://joelittlejohn.github.io/jsonschema2pojo/site/0.4.5/generate-mojo.html
+					<sourceDirectory>src/main/resources/schema</sourceDirectory>
 					<targetPackage>net.blackcat.fantasy.draft.fpl.integration.api</targetPackage>
 					<useJodaDates>true</useJodaDates>
 					<addCompileSourceRoot>true</addCompileSourceRoot>
@@ -130,7 +130,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			
 			<plugin>
 				<groupId>external.atlassian.jgitflow</groupId>
